@@ -16,3 +16,12 @@ home = C:\Users\User\AppData\Local\Programs\Python\Python312
 executable = C:\Users\User\AppData\Local\Programs\Python\Python312\python.exe
 
 command = C:\Users\User\AppData\Local\Programs\Python\Python312\python.exe -m venv D:\FYP\repositories\plant-shield-backend\env
+
+
+# Setup database
+
+install postgresql version 11.22 with pgadmin server
+
+while setup use password "root" for user
+
+create new schema named "plantshield"
