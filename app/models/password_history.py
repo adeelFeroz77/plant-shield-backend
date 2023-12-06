@@ -8,9 +8,10 @@ class PasswordHistory(db.Model):
     password_hash = db.Column(db.String(120), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    def __init__(self, user_id, password_hash):
+    def __init__(self, user_id, password_hash,timestamp):
         self.user_id = user_id
         self.password_hash = password_hash
+        self.timestamp = timestamp
 
     def __repr__(self):
         return f'<PasswordHistory for User {self.user_id} at {self.timestamp}>'
