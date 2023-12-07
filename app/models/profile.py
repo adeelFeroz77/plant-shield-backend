@@ -9,12 +9,12 @@ class Profile(db.Model):
     phone = db.Column(db.String(15))
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), unique=True, nullable=False)
 
-    def __init__(self, fullname, bio, gender, phone, image):
+    def __init__(self, fullname, bio, gender, phone,user_id):
         self.fullname = fullname
         self.bio = bio
         self.gender = gender
         self.phone = phone
-        self.image = image
+        self.user_id=user_id
 
     def __repr__(self):
         return f'<Profile of User {self.user.username}>'

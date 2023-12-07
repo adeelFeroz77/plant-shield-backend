@@ -2,7 +2,7 @@ from app import app, db, bcrypt
 from flask import request, jsonify
 from app.models import *
 import re
-from datetime import datetime, timedelta
+from datetime import datetime
 
 @app.route('/register',methods=['POST'])
 def register_user():

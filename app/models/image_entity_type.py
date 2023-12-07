@@ -10,4 +10,4 @@ class ImageEntityType(db.Model):
         self.entity_name = entity_name
 
     def __repr__(self):
-        return f'<image_entity_type {self}>'
+        return f'<image_entity_type {self.id}>'

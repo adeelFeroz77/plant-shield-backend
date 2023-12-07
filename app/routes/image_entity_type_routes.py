@@ -1,8 +1,9 @@
-from app import app, db, bcrypt
+from app import app, db
 from flask import request, jsonify
 from app.models import *
 
-@app.route('/image-entity-type',methods = ["Post"])
+
+@app.route('/image-entity-type', methods=["POST"])
 def add_image_entity_type():
     data = request.get_json()
     if data:
