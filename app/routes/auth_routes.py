@@ -1,3 +1,4 @@
+from flask_login import login_user
 from app import app, db, bcrypt
 from flask import request, jsonify
 from app.models import *
@@ -16,8 +17,11 @@ def register_user():
         if not username or not password or not email:
             return jsonify({"error": "Email,Username and password are required"}), 400
         
-        validate_new_user(email=email,username=username,password=password)
+        validation_result = validate_new_user(email=email, username=username, password=password)
 
+        if validation_result is not None:
+            return validation_result
+        
         hash_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
 
         user = User(
@@ -74,12 +78,13 @@ def is_valid_password(password):
     
     return True
 
-@app.route('/update/password/<int:user_id>',methods=['Post'])
-def update_password(user_id):
-    new_password = request.form.get('password')
-    if new_password and user_id:
+@app.route('/update/password',methods=['PUT'])
+def update_password():
+    new_password = request.form.get('new_password')
+    username = request.form.get('username')
+    if new_password and username:
 
-        user = User.query.get(user_id)
+        user = User.query.filter_by(username=username).first()
         if not user:
             return jsonify({"error": "User does not exist."}), 400
 
@@ -87,7 +92,7 @@ def update_password(user_id):
             return jsonify({"error": "Password is not valid"}), 400
 
 
-        if any(bcrypt.check_password_hash(password_history.password_hash, new_password) for password_history  in PasswordHistory.query.filter_by(user_id=user_id)):
+        if any(bcrypt.check_password_hash(password_history.password_hash, new_password) for password_history  in PasswordHistory.query.filter_by(user_id=user.id)):
             return jsonify({'message': "Choose new password, This is your previous password"}), 400
         
         hash_new_pass = bcrypt.generate_password_hash(new_password).decode('utf-8')
@@ -95,7 +100,7 @@ def update_password(user_id):
         user.password = hash_new_pass
         db.session.commit()
 
-        save_password_history(user_id=user_id,password_hash=hash_new_pass)
+        save_password_history(user_id=user.id,password_hash=hash_new_pass)
 
         return jsonify({"message": "Your password has been changed"}), 200
     else:
@@ -126,7 +131,7 @@ def signin_user():
         
         if not user or not bcrypt.check_password_hash(user.password, password):
             return jsonify({'message': 'Invalid username or password'}), 401
-        
+        # login_user(user=user, remember=True)
         return jsonify({'message': 'SignIn successful'}), 200
     else:
         return jsonify({'message':'Invalid JSON data provided'}), 401

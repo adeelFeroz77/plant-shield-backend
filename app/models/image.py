@@ -1,3 +1,4 @@
+import base64
 from app import db
 
 class Image(db.Model):
@@ -18,3 +19,12 @@ class Image(db.Model):
 
     def __repr__(self):
         return f'<image {self}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'image_name':self.image_name,
+            'image_extension':self.image_extension,
+            'entity_id':self.entity_id,
+            'entity_type_id':self.entity_type_id
+        }
