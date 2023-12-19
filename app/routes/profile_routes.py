@@ -1,3 +1,4 @@
+import datetime
 from app import app, db
 from flask import request, jsonify, send_file
 from app.models import *
@@ -14,6 +15,7 @@ def create_profile():
         bio = data.get('bio', '')
         gender = data.get('gender', '')
         phone = data.get('phone', '')
+        location = data.get('location', '')
         username = data['username']
 
         user = get_user_by_username(username)
@@ -21,11 +23,17 @@ def create_profile():
         if user is None:
             return jsonify({'error': 'User Not found'}), 404
         
+        existed_profile = Profile.query.filter_by(user_id=user.id).first()
+        if existed_profile:
+            return jsonify({'error': 'Profile already exist'}), 400
+    
+
         profile = Profile(
             fullname=fullname,
             bio=bio,
             gender=gender,
             phone=phone,
+            location=location,
             user_id=user.id
         )
         db.session.add(profile)
@@ -47,7 +55,8 @@ def create_profile():
                 image_name=image_name,
                 image_extension=image_extension,
                 entity_id=profile.id,
-                entity_type_id=image_entity_type.id
+                entity_type_id=image_entity_type.id,
+                created_date=datetime.datetime.utcnow()
             )
             db.session.add(image)
             db.session.commit()
@@ -67,15 +76,16 @@ def get_profile(profile_id):
     if profile:
         image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Profile).first()
         image = Image.query.filter_by(entity_id=profile.id, entity_type_id=image_entity_type.id).first() 
-            
-        image_json = image.to_dict()
-
+        
+        image_json = image.to_dict() if image else None
+        
         return jsonify({
             'id': profile.id,
             'fullname': profile.fullname,
             'bio': profile.bio,
             'gender': profile.gender,
             'phone': profile.phone,
+            'location': profile.location,
             'user_id': profile.user_id,
             'profile_picture': image_json
         })
@@ -93,6 +103,7 @@ def update_profile(profile_id):
             profile.bio = data.get('bio', profile.bio)
             profile.gender = data.get('gender', profile.gender)
             profile.phone = data.get('phone', profile.phone)
+            profile.location = data.get('location', profile.location)
             
             db.session.commit()
             if request.files['profile_picture']:
@@ -113,7 +124,8 @@ def update_profile(profile_id):
                         image_name=image_name,
                         image_extension=image_extension,
                         entity_id=profile.id,
-                        entity_type_id=image_entity_type.id
+                        entity_type_id=image_entity_type.id,
+                        created_date=datetime.datetime.utcnow()
                     )
                     db.session.add(image)
                     db.session.commit()

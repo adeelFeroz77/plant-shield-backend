@@ -7,36 +7,31 @@ from datetime import datetime
 
 @app.route('/register',methods=['POST'])
 def register_user():
-    data = request.get_json()
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-    if data:
-        email = data.get('email')
-        username = data.get('username')
-        password = data.get('password')
+    if not username or not password or not email:
+        return jsonify({"error": "Email,Username and password are required"}), 400
+    
+    validation_result = validate_new_user(email=email, username=username, password=password)
 
-        if not username or not password or not email:
-            return jsonify({"error": "Email,Username and password are required"}), 400
-        
-        validation_result = validate_new_user(email=email, username=username, password=password)
+    if validation_result is not None:
+        return validation_result
+    
+    hash_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-        if validation_result is not None:
-            return validation_result
-        
-        hash_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+    user = User(
+        email=email,
+        username=username,
+        password=hash_password
+    )
+    db.session.add(user)
+    db.session.commit()
+    
+    save_password_history(user_id=user.id,password_hash=hash_password)
 
-        user = User(
-            email=email,
-            username=username,
-            password=hash_password,
-        )
-        db.session.add(user)
-        db.session.commit()
-        
-        save_password_history(user_id=user.id,password_hash=hash_password)
-
-        return jsonify({"message": "User added successfully"}), 200
-    else:
-        return jsonify({'message': "Invalid JSON data provided"}), 401
+    return jsonify({"message": "User added successfully"}), 200
 
 
 def validate_new_user(email,username,password):
@@ -119,19 +114,15 @@ def save_password_history(user_id,password_hash):
 
 @app.route('/signin', methods=['POST'])
 def signin_user():
-    data = request.get_json()
-    if data:
-        username = data.get('username')
-        password = data.get('password')
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-        if not username or not password:
-            return jsonify({"error": "Username and password are required"}), 400
+    if not username or not password:
+        return jsonify({"error": "Username and password are required"}), 400
 
-        user = User.query.filter_by(username=username).first()
-        
-        if not user or not bcrypt.check_password_hash(user.password, password):
-            return jsonify({'message': 'Invalid username or password'}), 401
-        # login_user(user=user, remember=True)
-        return jsonify({'message': 'SignIn successful'}), 200
-    else:
-        return jsonify({'message':'Invalid JSON data provided'}), 401
+    user = User.query.filter_by(username=username).first()
+    
+    if not user or not bcrypt.check_password_hash(user.password, password):
+        return jsonify({'message': 'Invalid username or password'}), 401
+    # login_user(user=user, remember=True)
+    return jsonify({'message': 'SignIn successful'}), 200
