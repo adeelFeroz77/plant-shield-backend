@@ -24,7 +24,8 @@ def register_user():
     user = User(
         email=email,
         username=username,
-        password=hash_password
+        password=hash_password,
+        created_date=datetime.utcnow()
     )
     db.session.add(user)
     db.session.commit()

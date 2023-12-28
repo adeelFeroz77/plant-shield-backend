@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from app import app, db
 from flask import request, jsonify, send_file
 from app.models import *
@@ -33,7 +33,7 @@ def create_plant():
             is_favorite=is_favorite,
             is_blooming=is_blooming,
             tags=tags,
-            created_date=datetime.datetime.utcnow()
+            created_date=datetime.utcnow()
         )
         db.session.add(new_plant)
         db.session.commit()
@@ -55,7 +55,7 @@ def create_plant():
                 image_extension=image_extension,
                 entity_id=new_plant.id,
                 entity_type_id=image_entity_type.id,
-                created_date=datetime.datetime.utcnow()
+                created_date=datetime.utcnow()
             )
             db.session.add(image)
             db.session.commit()
@@ -145,7 +145,7 @@ def update_plant(plant_id):
                                 image_extension=image_extension,
                                 entity_id=plant.id,
                                 entity_type_id=image_entity_type.id,
-                                created_date=datetime.datetime.utcnow()
+                                created_date=datetime.utcnow()
                             )
                             db.session.add(image)
                             db.session.commit()

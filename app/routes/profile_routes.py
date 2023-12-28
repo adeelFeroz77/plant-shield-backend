@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from app import app, db
 from flask import request, jsonify, send_file
 from app.models import *
@@ -56,7 +56,7 @@ def create_profile():
                 image_extension=image_extension,
                 entity_id=profile.id,
                 entity_type_id=image_entity_type.id,
-                created_date=datetime.datetime.utcnow()
+                created_date=datetime.utcnow()
             )
             db.session.add(image)
             db.session.commit()
@@ -125,7 +125,7 @@ def update_profile(profile_id):
                         image_extension=image_extension,
                         entity_id=profile.id,
                         entity_type_id=image_entity_type.id,
-                        created_date=datetime.datetime.utcnow()
+                        created_date=datetime.utcnow()
                     )
                     db.session.add(image)
                     db.session.commit()
