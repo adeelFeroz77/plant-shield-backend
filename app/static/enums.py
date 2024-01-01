@@ -1,4 +1,4 @@
 class EntityTypes:
-    Profile = "Profile"
-    Plant = 'Plant'
-    UserPlant = 'User Plant'
+    Profile = "PROFILE"
+    Plant = 'PLANT'
+    UserPlant = 'USER_PLANT'
