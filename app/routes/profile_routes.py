@@ -41,8 +41,8 @@ def create_profile():
         db.session.add(profile)
         db.session.commit()
 
-        if 'profile_picture' in request.files:
-            image_file = request.files['profile_picture']
+        if 'file' in request.files:
+            image_file = request.files['file']
             image_data = image_file.read()
             image_name = image_file.filename
             image_extension = image_name.rsplit('.', 1)[1].lower() if '.' in image_name else ''
@@ -62,7 +62,7 @@ def create_profile():
             )
             db.session.add(image)
             db.session.commit()
-        return jsonify({'error': 'Profile created successfully'}), 201
+        return jsonify({'error': 'Profile created successfully'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -89,7 +89,7 @@ def get_profile(profile_id):
             'gender': profile.gender,
             'phone': profile.phone,
             'location': profile.location,
-            'user_id': profile.user_id,
+            'username': profile.user.username,
             'profile_picture': image_json
         })
     else:
