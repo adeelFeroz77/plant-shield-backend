@@ -1,3 +1,4 @@
+import datetime
 from app import db
 
 class User(db.Model):
@@ -6,13 +7,15 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     profile = db.relationship('Profile', backref='user', uselist=False, lazy=True)
     password_history = db.relationship('PasswordHistory', backref='user', lazy=True)
 
-    def __init__(self, email, username, password):
+    def __init__(self, email, username, password,created_date):
         self.email = email
         self.username = username
         self.password = password
+        self.created_date = created_date
 
     def __repr__(self):
         return f'<User {self.username}>'

@@ -14,3 +14,14 @@ from app.static import *
 with app.app_context():
     # db.drop_all()
     db.create_all()
+
+    # Add data to ImageEntityType
+    dummy_entity_names = ['PROFILE', 'PLANT', 'USER_PLANT']
+
+    for entity_name in dummy_entity_names:
+        existing_entity = ImageEntityType.query.filter_by(entity_name=entity_name).first()
+
+        if not existing_entity:
+            new_entity = ImageEntityType(entity_name=entity_name)
+            db.session.add(new_entity)
+    db.session.commit()

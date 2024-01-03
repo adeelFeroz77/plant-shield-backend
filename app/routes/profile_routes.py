@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import app, db
 from flask import request, jsonify, send_file
 from app.models import *
@@ -7,13 +8,15 @@ from app.static import *
 @app.route('/profile', methods=['POST'])
 def create_profile():
     data = request.form
-    if 'fullname' not in data or 'username' not in data:
+    if 'first_name' not in data or 'username' not in data:
         return jsonify({'error': 'Fullname, and username are required fields'}), 400
     try:
-        fullname = data.get('fullname', '')
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
         bio = data.get('bio', '')
         gender = data.get('gender', '')
         phone = data.get('phone', '')
+        location = data.get('location', '')
         username = data['username']
 
         user = get_user_by_username(username)
@@ -21,18 +24,25 @@ def create_profile():
         if user is None:
             return jsonify({'error': 'User Not found'}), 404
         
+        existed_profile = Profile.query.filter_by(user_id=user.id).first()
+        if existed_profile:
+            return jsonify({'error': 'Profile already exist'}), 400
+    
+
         profile = Profile(
-            fullname=fullname,
+            first_name=first_name,
+            last_name=last_name,
             bio=bio,
             gender=gender,
             phone=phone,
+            location=location,
             user_id=user.id
         )
         db.session.add(profile)
         db.session.commit()
 
-        if 'profile_picture' in request.files:
-            image_file = request.files['profile_picture']
+        if 'file' in request.files:
+            image_file = request.files['file']
             image_data = image_file.read()
             image_name = image_file.filename
             image_extension = image_name.rsplit('.', 1)[1].lower() if '.' in image_name else ''
@@ -47,11 +57,12 @@ def create_profile():
                 image_name=image_name,
                 image_extension=image_extension,
                 entity_id=profile.id,
-                entity_type_id=image_entity_type.id
+                entity_type_id=image_entity_type.id,
+                created_date=datetime.utcnow()
             )
             db.session.add(image)
             db.session.commit()
-        return jsonify({'error': 'Profile created successfully'}), 201
+        return jsonify({'error': 'Profile created successfully'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -67,16 +78,18 @@ def get_profile(profile_id):
     if profile:
         image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Profile).first()
         image = Image.query.filter_by(entity_id=profile.id, entity_type_id=image_entity_type.id).first() 
-            
-        image_json = image.to_dict()
-
+        
+        image_json = image.to_dict() if image else None
+        
         return jsonify({
             'id': profile.id,
-            'fullname': profile.fullname,
+            'first_name': profile.first_name,
+            'last_name': profile.last_name,
             'bio': profile.bio,
             'gender': profile.gender,
             'phone': profile.phone,
-            'user_id': profile.user_id,
+            'location': profile.location,
+            'username': profile.user.username,
             'profile_picture': image_json
         })
     else:
@@ -89,10 +102,12 @@ def update_profile(profile_id):
     profile = Profile.query.get(profile_id)
     if profile:
         try:
-            profile.fullname = data.get('fullname', profile.fullname)
+            profile.first_name = data.get('first_name', profile.first_name)
+            profile.last_name = data.get('last_name', profile.last_name)
             profile.bio = data.get('bio', profile.bio)
             profile.gender = data.get('gender', profile.gender)
             profile.phone = data.get('phone', profile.phone)
+            profile.location = data.get('location', profile.location)
             
             db.session.commit()
             if request.files['profile_picture']:
@@ -113,7 +128,8 @@ def update_profile(profile_id):
                         image_name=image_name,
                         image_extension=image_extension,
                         entity_id=profile.id,
-                        entity_type_id=image_entity_type.id
+                        entity_type_id=image_entity_type.id,
+                        created_date=datetime.utcnow()
                     )
                     db.session.add(image)
                     db.session.commit()
