@@ -8,10 +8,11 @@ from app.static import *
 @app.route('/profile', methods=['POST'])
 def create_profile():
     data = request.form
-    if 'fullname' not in data or 'username' not in data:
+    if 'first_name' not in data or 'username' not in data:
         return jsonify({'error': 'Fullname, and username are required fields'}), 400
     try:
-        fullname = data.get('fullname', '')
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
         bio = data.get('bio', '')
         gender = data.get('gender', '')
         phone = data.get('phone', '')
@@ -29,7 +30,8 @@ def create_profile():
     
 
         profile = Profile(
-            fullname=fullname,
+            first_name=first_name,
+            last_name=last_name,
             bio=bio,
             gender=gender,
             phone=phone,
@@ -81,7 +83,8 @@ def get_profile(profile_id):
         
         return jsonify({
             'id': profile.id,
-            'fullname': profile.fullname,
+            'first_name': profile.first_name,
+            'last_name': profile.last_name,
             'bio': profile.bio,
             'gender': profile.gender,
             'phone': profile.phone,
@@ -99,7 +102,8 @@ def update_profile(profile_id):
     profile = Profile.query.get(profile_id)
     if profile:
         try:
-            profile.fullname = data.get('fullname', profile.fullname)
+            profile.first_name = data.get('first_name', profile.first_name)
+            profile.last_name = data.get('last_name', profile.last_name)
             profile.bio = data.get('bio', profile.bio)
             profile.gender = data.get('gender', profile.gender)
             profile.phone = data.get('phone', profile.phone)

@@ -113,7 +113,7 @@ def save_password_history(user_id,password_hash):
     db.session.add(password_history)
     db.session.commit()
 
-@app.route('/signin', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def signin_user():
     username = request.form.get('username')
     password = request.form.get('password')
@@ -127,3 +127,22 @@ def signin_user():
         return jsonify({'message': 'Invalid username or password'}), 401
     # login_user(user=user, remember=True)
     return jsonify({'message': 'SignIn successful'}), 200
+
+@app.route('/user/get-loggedin-user/<string:username>', methods=['GET'])
+def get_loggedIn_user(username):
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    user,plant = db.session.query(User, Profile).outerjoin(Profile).filter(User.username == username).first()
+    print(user)
+    print(plant)
+    if not user:
+        return jsonify({'message': 'Invalid username'}), 401
+    user_details = {
+        'firstName': plant.first_name if plant else None,
+        'lastName': plant.last_name if plant else None,
+        'email': user.email,
+        'username': user.username,
+    }
+    # login_user(user=user, remember=True)
+    return jsonify(user_details), 200
