@@ -1,9 +1,12 @@
+import base64
 from flask_login import login_user
 from app import app, db, bcrypt
 from flask import request, jsonify
 from app.models import *
 import re
 from datetime import datetime
+
+from app.static.enums import EntityTypes
 
 @app.route('/register',methods=['POST'])
 def register_user():
@@ -133,15 +136,17 @@ def get_loggedIn_user(username):
     if not username:
         return jsonify({"error": "Username is required"}), 400
 
-    user,plant = db.session.query(User, Profile).outerjoin(Profile).filter(User.username == username).first()
-    print(user)
-    print(plant)
+    user,profile = db.session.query(User, Profile).outerjoin(Profile).filter(User.username == username).first()
     if not user:
         return jsonify({'error': 'Invalid username'}), 401
+    if profile:
+        image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Profile).first()
+        image = Image.query.filter_by(entity_id=profile.id, entity_type_id=image_entity_type.id).first()
     user_details = {
-        'firstName': plant.first_name if plant else None,
-        'lastName': plant.last_name if plant else None,
+        'first_name': profile.first_name if profile else None,
+        'last_name': profile.last_name if profile else None,
         'email': user.email,
         'username': user.username,
+        'profile_picture': base64.b64encode(image.get_data()).decode('utf-8') if image else None
     }
     return jsonify(user_details), 200
