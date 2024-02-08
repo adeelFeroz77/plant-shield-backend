@@ -1,9 +1,12 @@
+import base64
 from flask_login import login_user
 from app import app, db, bcrypt
 from flask import request, jsonify
 from app.models import *
 import re
 from datetime import datetime
+
+from app.static.enums import EntityTypes
 
 @app.route('/register',methods=['POST'])
 def register_user():
@@ -89,7 +92,7 @@ def update_password():
 
 
         if any(bcrypt.check_password_hash(password_history.password_hash, new_password) for password_history  in PasswordHistory.query.filter_by(user_id=user.id)):
-            return jsonify({'message': "Choose new password, This is your previous password"}), 400
+            return jsonify({'error': "Choose new password, This is your previous password"}), 400
         
         hash_new_pass = bcrypt.generate_password_hash(new_password).decode('utf-8')
 
@@ -100,7 +103,7 @@ def update_password():
 
         return jsonify({"message": "Your password has been changed"}), 200
     else:
-        return jsonify({'message': "Invalid JSON data provided"}), 401
+        return jsonify({'error': "Invalid JSON data provided"}), 401
 
 def save_password_history(user_id,password_hash):
     timestamp = datetime.utcnow()
@@ -117,14 +120,14 @@ def save_password_history(user_id,password_hash):
 def signin_user():
     username = request.form.get('username')
     password = request.form.get('password')
-
+    
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
 
     user = User.query.filter_by(username=username).first()
     
     if not user or not bcrypt.check_password_hash(user.password, password):
-        return jsonify({'message': 'Invalid username or password'}), 401
+        return jsonify({'error': 'Invalid username or password'}), 401
     # login_user(user=user, remember=True)
     return jsonify({'message': 'SignIn successful'}), 200
 
@@ -133,16 +136,17 @@ def get_loggedIn_user(username):
     if not username:
         return jsonify({"error": "Username is required"}), 400
 
-    user,plant = db.session.query(User, Profile).outerjoin(Profile).filter(User.username == username).first()
-    print(user)
-    print(plant)
+    user,profile = db.session.query(User, Profile).outerjoin(Profile).filter(User.username == username).first()
     if not user:
-        return jsonify({'message': 'Invalid username'}), 401
+        return jsonify({'error': 'Invalid username'}), 401
+    if profile:
+        image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Profile).first()
+        image = Image.query.filter_by(entity_id=profile.id, entity_type_id=image_entity_type.id).first()
     user_details = {
-        'firstName': plant.first_name if plant else None,
-        'lastName': plant.last_name if plant else None,
+        'first_name': profile.first_name if profile else None,
+        'last_name': profile.last_name if profile else None,
         'email': user.email,
         'username': user.username,
+        'profile_picture': base64.b64encode(image.get_data()).decode('utf-8') if image else None
     }
-    # login_user(user=user, remember=True)
     return jsonify(user_details), 200

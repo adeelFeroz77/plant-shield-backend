@@ -32,3 +32,5 @@ class Image(db.Model):
             'entity_type_id':self.entity_type_id,
             'created_date':self.created_date.isoformat()
         }
+    def get_data(self):
+        return self.data
