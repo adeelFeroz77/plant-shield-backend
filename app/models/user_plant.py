@@ -7,7 +7,7 @@ class UserPlant(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     plant_id = db.Column(db.Integer, db.ForeignKey('plant.id'), nullable=False)
     user_image_url = db.Column(db.String(200))
-    last_watered = db.Column(db.DateTime)
+    last_watered = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     notes = db.Column(db.Text)
     current_disease = db.Column(db.String(200))
     date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow)

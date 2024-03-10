@@ -3,6 +3,8 @@ from app import app, db
 from flask import request, jsonify, send_file
 from app.models import *
 from app.static import *
+from app.routes import image_routes
+from app.exceptions import *
 
 # Create a new plant
 @app.route('/plant', methods=['POST'])
@@ -36,30 +38,18 @@ def create_plant():
             created_date=datetime.utcnow()
         )
         db.session.add(new_plant)
-        db.session.commit()
 
         if 'plant_image' in request.files:
             image_file = request.files['plant_image']
-            image_data = image_file.read()
-            image_name = image_file.filename
-            image_extension = image_name.rsplit('.', 1)[1].lower() if '.' in image_name else ''
-
-            image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Plant).first()  
-
-            if not image_entity_type:
-                return jsonify({'error': 'Image Entity Type ID not found for the given entity name'}), 404
-            
-            image = Image(
-                data=image_data,
-                image_name=image_name,
-                image_extension=image_extension,
-                entity_id=new_plant.id,
-                entity_type_id=image_entity_type.id,
-                created_date=datetime.utcnow()
-            )
-            db.session.add(image)
-            db.session.commit()
+            image_routes.save_image_by_entity_and_entity_type(image_file, new_plant.id, EntityTypes.Plant)
+        db.session.commit()
         return jsonify({'message': 'Plant created successfully'})
+    except EntityTypeException as e:
+        db.session.rollback()
+        return jsonify({'Entity Error' : e.message}), 404
+    except ImageException as e:
+         db.session.rollback()
+         return jsonify({'Image Error' : e.message}), 500
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -125,36 +115,21 @@ def update_plant(plant_id):
             plant.is_favorite = bool(data.get('is_favorite', plant.is_favorite))
             plant.is_blooming = bool(data.get('is_blooming', plant.is_blooming))
             plant.tags = data.get('tags', plant.tags)
-            db.session.commit()
+            # db.session.commit()
             if request.files['plant_image']:
-                        new_image = request.files['plant_image']
-                        image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Plant).first()
-                        image = Image.query.filter_by(entity_id=plant.id, entity_type_id=image_entity_type.id).first()
-                        if image:
-                            image.data = new_image.read()
-                            image.image_name = new_image.filename
-                            image.image_extention = new_image.filename.rsplit('.', 1)[1].lower() if '.' in image.image_name else ''
-                            db.session.commit()
-                        else:
-                            image_data = new_image.read()
-                            image_name = new_image.filename
-                            image_extension = image_name.rsplit('.', 1)[1].lower() if '.' in image_name else ''
-                            image = Image(
-                                data=image_data,
-                                image_name=image_name,
-                                image_extension=image_extension,
-                                entity_id=plant.id,
-                                entity_type_id=image_entity_type.id,
-                                created_date=datetime.utcnow()
-                            )
-                            db.session.add(image)
-                            db.session.commit()
+                new_image = request.files['plant_image']
+                old_image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=plant_id, entity_name=EntityTypes.Plant)
+                if old_image:
+                    image_routes.update_image(old_image= old_image, new_image= new_image)
+                else:
+                    image_routes.save_image_by_entity_and_entity_type(image_file= new_image, entity_id=plant_id, entity_name=EntityTypes.Plant)
+            db.session.commit()
             return jsonify({'message': 'Plant updated successfully'})
         except Exception as e:
-                db.session.rollback()
-                return jsonify({'error': str(e)}), 500    
+            db.session.rollback()
+            return jsonify({'error': str(e)}), 500    
     else:
-         return jsonify({'error': 'Plant not found'}), 404
+        return jsonify({'error': 'Plant not found'}), 404
     
 
 # Delete a plant
@@ -164,13 +139,12 @@ def delete_plant(plant_id):
     if plant:
         try:
             db.session.delete(plant)
-            db.session.commit()
+            # db.session.commit()
             
-            image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Plant).first()
-            image = Image.query.filter_by(entity_id=plant.id, entity_type_id=image_entity_type.id).first()
+            image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=plant_id, entity_name=EntityTypes.Plant)
             if image:
                 db.session.delete(image)
-                db.session.commit()
+            db.session.commit()
 
             return jsonify({'message': 'Plant deleted successfully'}), 200
         except Exception as e:
