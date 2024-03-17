@@ -38,11 +38,12 @@ def create_plant():
             created_date=datetime.utcnow()
         )
         db.session.add(new_plant)
+        db.session.commit()
 
         if 'plant_image' in request.files:
             image_file = request.files['plant_image']
             image_routes.save_image_by_entity_and_entity_type(image_file, new_plant.id, EntityTypes.Plant)
-        db.session.commit()
+        
         return jsonify({'message': 'Plant created successfully'})
     except EntityTypeException as e:
         db.session.rollback()
@@ -115,7 +116,7 @@ def update_plant(plant_id):
             plant.is_favorite = bool(data.get('is_favorite', plant.is_favorite))
             plant.is_blooming = bool(data.get('is_blooming', plant.is_blooming))
             plant.tags = data.get('tags', plant.tags)
-            # db.session.commit()
+            db.session.commit()
             if request.files['plant_image']:
                 new_image = request.files['plant_image']
                 old_image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=plant_id, entity_name=EntityTypes.Plant)
@@ -123,7 +124,6 @@ def update_plant(plant_id):
                     image_routes.update_image(old_image= old_image, new_image= new_image)
                 else:
                     image_routes.save_image_by_entity_and_entity_type(image_file= new_image, entity_id=plant_id, entity_name=EntityTypes.Plant)
-            db.session.commit()
             return jsonify({'message': 'Plant updated successfully'})
         except Exception as e:
             db.session.rollback()

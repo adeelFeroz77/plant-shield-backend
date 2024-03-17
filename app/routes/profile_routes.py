@@ -41,12 +41,11 @@ def create_profile():
             user_id=user.id
         )
         db.session.add(profile)
-        # db.session.commit()
+        db.session.commit()
 
         if 'file' in request.files:
             image_file = request.files['file']
             image_routes.save_image_by_entity_and_entity_type(image_file= image_file, entity_id= profile.id, entity_name= EntityTypes.Profile)
-        db.session.commit()
         return jsonify({'error': 'Profile created successfully'}), 200
     except EntityTypeException as ex:
         db.session.rollback()
@@ -99,7 +98,7 @@ def update_profile(profile_id):
             profile.phone = data.get('phone', profile.phone)
             profile.location = data.get('location', profile.location)
             
-            # db.session.commit()
+            db.session.commit()
             if request.files['profile_picture']: 
                 new_image = request.files['profile_picture']
                 image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=profile_id, entity_name=EntityTypes.Profile)
@@ -107,7 +106,6 @@ def update_profile(profile_id):
                     image_routes.update_image(old_image= image, new_image= new_image)
                 else:
                     image_routes.save_image_by_entity_and_entity_type(new_image,profile_id,EntityTypes.Profile)
-            db.session.commit()
             return jsonify({'message': 'Profile updated successfully'}), 200
         except EntityTypeException as e:
             db.session.rollback()
@@ -129,13 +127,11 @@ def delete_profile(profile_id):
     if profile:
         try:
             db.session.delete(profile)
-            # db.session.commit()
+            db.session.commit()
             
             image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=profile_id, entity_name=EntityTypes.Profile)
             if image:
                 db.session.delete(image)
-                # db.session.commit()
-            db.session.commit()
 
             return jsonify({'message': 'Profile deleted successfully'}), 200
         except Exception as e:

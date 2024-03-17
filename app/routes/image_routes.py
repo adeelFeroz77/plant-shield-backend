@@ -46,6 +46,7 @@ def save_image_by_entity_and_entity_type(image_file, entity_id, entity_name):
             created_date=datetime.utcnow()
         )
         db.session.add(image)
+        db.session.commit()
     except:
         raise ImageException("Error occured while uploading image")
 
@@ -54,5 +55,6 @@ def update_image(old_image, new_image):
         old_image.data = new_image.read()
         old_image.image_name = new_image.filename
         old_image.image_extention = get_image_extension(new_image.filename)
+        db.session.commit()
     except:
         raise ImageException("Error occured while updating Image")

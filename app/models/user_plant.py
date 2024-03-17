@@ -12,12 +12,12 @@ class UserPlant(db.Model):
     current_disease = db.Column(db.String(200))
     date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    def __init__(self, fullname, bio, gender, phone,user_id):
-        self.fullname = fullname
-        self.bio = bio
-        self.gender = gender
-        self.phone = phone
+    def __init__(self, user_id, plant_id, last_watered, notes, current_disease):
         self.user_id=user_id
+        self.plant_id = plant_id
+        self.last_watered = last_watered
+        self.notes = notes
+        self.current_disease = current_disease
 
     def __repr__(self):
         return f'<Profile of User {self.user.username}>'
