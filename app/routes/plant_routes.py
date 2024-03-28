@@ -152,3 +152,8 @@ def delete_plant(plant_id):
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Plant not found'}), 404
+    
+
+def get_plant_by_name(plant_name):
+    plant = Plant.query.filter_by(plant_name = plant_name).first()
+    return plant

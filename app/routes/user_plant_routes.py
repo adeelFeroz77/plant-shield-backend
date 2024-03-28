@@ -37,20 +37,40 @@ def add_user_plant():
         db.session.add(user_plant)
         db.session.commit()
 
-        disease = None
-
         if 'user_plant_image' in request.files:
             image_file = request.files['user_plant_image']
             image_routes.save_image_by_entity_and_entity_type(image_file,user_plant.id, EntityTypes.UserPlant)
-            pred = image_detection.predict_image(image_file)
-            disease = image_detection.getDiseaseInfo(pred)
-            print(disease)
-        
-        if disease:
-            UserPlant.current_disease = disease.split(':')[1].strip()
-            db.session.commit()
+
+        #TODO: Code to add image in detection history for feedbacks
 
         return jsonify({'message': 'Plant added in User\'s list'})
     except Exception as e:
         return jsonify({'error': str(e)}),500
-    
+
+
+@app.route('/detect-plant', methods = ['GET'])    
+def detect_plant():
+    data = request.form
+    try:
+        if 'plant_image' in request.files:
+            image_file = request.files['plant_image']
+            pred = image_detection.predict_image(image_file)
+            pred_info = image_detection.getDiseaseInfo(pred)
+            plant_name = pred_info.split(':')[0].strip()
+            disease_name = pred_info.split(':')[1].strip()
+            plant = plant_routes.get_plant_by_name(plant_name)
+
+            if not plant:
+                return jsonify({'message': 'Plant not found in Database'}), 404
+
+            obj = {
+                'plant_id': plant.id,
+                'plant_name': plant.plant_name,
+                'disease_name': disease_name
+            }
+
+            return jsonify(obj), 200
+        else:
+            return jsonify({'message': 'Image not attached'}), 400
+    except e:
+        return jsonify({'exception': str(e)}), 500
