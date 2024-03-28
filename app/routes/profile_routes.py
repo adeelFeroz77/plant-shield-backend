@@ -132,6 +132,7 @@ def delete_profile(profile_id):
             image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=profile_id, entity_name=EntityTypes.Profile)
             if image:
                 db.session.delete(image)
+                db.session.commit()
 
             return jsonify({'message': 'Profile deleted successfully'}), 200
         except Exception as e:

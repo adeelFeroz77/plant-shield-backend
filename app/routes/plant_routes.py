@@ -139,12 +139,12 @@ def delete_plant(plant_id):
     if plant:
         try:
             db.session.delete(plant)
-            # db.session.commit()
+            db.session.commit()
             
             image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=plant_id, entity_name=EntityTypes.Plant)
             if image:
                 db.session.delete(image)
-            db.session.commit()
+                db.session.commit()
 
             return jsonify({'message': 'Plant deleted successfully'}), 200
         except Exception as e:
