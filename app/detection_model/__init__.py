@@ -1,4 +1,3 @@
-from .CNN import CNN
 from .image_detection import *
 
 __all__ = ['CNN']

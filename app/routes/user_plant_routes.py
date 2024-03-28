@@ -56,6 +56,10 @@ def detect_plant():
             image_file = request.files['plant_image']
             pred = image_detection.predict_image(image_file)
             pred_info = image_detection.getDiseaseInfo(pred)
+            print(pred_info)
+            if not ":" in pred_info:
+                return jsonify({'message': 'No Plant detected in provided image'}), 400
+
             plant_name = pred_info.split(':')[0].strip()
             disease_name = pred_info.split(':')[1].strip()
             plant = plant_routes.get_plant_by_name(plant_name)
@@ -66,11 +70,18 @@ def detect_plant():
             obj = {
                 'plant_id': plant.id,
                 'plant_name': plant.plant_name,
+                'plant_description':plant.description,
+                'species': plant.species,
+                'watering_schedule': plant.watering_schedule,
+                'sunlight_requirements': plant.sunlight_requirements,
+                'temperature_requirements': plant.temperature_requirements,
+                'care_instructions': plant.care_instructions,
+                'notes': plant.notes,
                 'disease_name': disease_name
             }
 
             return jsonify(obj), 200
         else:
             return jsonify({'message': 'Image not attached'}), 400
-    except e:
+    except Exception as e:
         return jsonify({'exception': str(e)}), 500
