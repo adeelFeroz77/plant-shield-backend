@@ -5,6 +5,7 @@ from .image import Image
 from .image_entity_type import ImageEntityType
 from .plant import Plant
 from .user_plant import UserPlant
+from .one_time_password import OneTimePassword
 
 __all__ = [
     'User',
@@ -13,5 +14,6 @@ __all__ = [
     'Image',
     'ImageEntityType',
     'Plant',
-    'UserPlant'
+    'UserPlant',
+    'OneTimePassword'
 ]
