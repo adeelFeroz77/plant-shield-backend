@@ -20,10 +20,9 @@ def generate_otp():
         
         one_time_password = OneTimePassword(user_email= email)
 
-        db.session.add(one_time_password)
-
         mail_service.send_otp_over_mail(recepient_mail= email, otp_code= one_time_password.otp_code)
 
+        db.session.add(one_time_password)
         db.session.commit()
 
         return jsonify({
