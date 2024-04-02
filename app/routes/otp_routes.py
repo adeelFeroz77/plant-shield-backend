@@ -3,6 +3,7 @@ from app import app, db
 from flask import request, jsonify
 from app.models import *
 from app.routes import auth_routes
+from app.service import mail_service
 
 
 @app.route('/generate-otp', methods=['POST'])
@@ -20,9 +21,10 @@ def generate_otp():
         one_time_password = OneTimePassword(user_email= email)
 
         db.session.add(one_time_password)
-        db.session.commit()
 
-        #TODO - call mailing service to send OTP on email
+        mail_service.send_otp_over_mail(recepient_mail= email, otp_code= one_time_password.otp_code)
+
+        db.session.commit()
 
         return jsonify({
             'user_email': one_time_password.user_email,
