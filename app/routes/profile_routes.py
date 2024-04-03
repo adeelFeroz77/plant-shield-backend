@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 from app import app, db
 from flask import request, jsonify, send_file
@@ -138,5 +139,32 @@ def delete_profile(profile_id):
         except Exception as e:
             db.session.rollback()
             return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'Profile not found'}), 404
+
+@app.route('/profile_by_username/<string:username>', methods=['GET'])
+def get_profile_by_username(username):
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    user,profile = db.session.query(User, Profile).outerjoin(Profile).filter(User.username == username).first()
+    if not user:
+        return jsonify({'error': 'Invalid username'}), 401
+    if profile:
+        image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=profile.id, entity_name=EntityTypes.Profile)
+        
+        image_json = base64.b64encode(image.get_data()).decode('utf-8') if image else None
+        
+        return jsonify({
+            'id': profile.id,
+            'first_name': profile.first_name,
+            'last_name': profile.last_name,
+            'bio': profile.bio,
+            'gender': profile.gender,
+            'phone': profile.phone,
+            'location': profile.location,
+            'username': profile.user.username,
+            'profile_picture': image_json
+        })
     else:
         return jsonify({'error': 'Profile not found'}), 404
