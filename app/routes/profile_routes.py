@@ -100,7 +100,7 @@ def update_profile(profile_id):
             profile.location = data.get('location', profile.location)
             
             db.session.commit()
-            if request.files['profile_picture']: 
+            if 'profile_picture' in request.files:
                 new_image = request.files['profile_picture']
                 image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=profile_id, entity_name=EntityTypes.Profile)
                 if image:
@@ -142,7 +142,7 @@ def delete_profile(profile_id):
     else:
         return jsonify({'error': 'Profile not found'}), 404
 
-@app.route('/profile_by_username/<string:username>', methods=['GET'])
+@app.route('/profile/username/<string:username>', methods=['GET'])
 def get_profile_by_username(username):
     if not username:
         return jsonify({"error": "Username is required"}), 400
