@@ -25,3 +25,6 @@ install postgresql version 11.22 with pgadmin server
 while setup use password "root" for user
 
 create new schema named "plantshield"
+
+# Add dependencies
+pip install torchvision numpy pandas Pillow torch
