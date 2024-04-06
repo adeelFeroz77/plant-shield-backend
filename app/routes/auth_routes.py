@@ -8,6 +8,22 @@ from datetime import datetime
 
 from app.static.enums import EntityTypes
 
+@app.route('/validate-new-user',methods=['GET'])
+def validate_user():
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    
+    if not username or not password or not email:
+        return jsonify({"error": "Email,Username and password are required"}), 400
+    
+    validation_result = validate_new_user(email=email, username=username, password=password)
+
+    if validation_result is not None:
+        return validation_result
+    
+    return jsonify({"message": "User Validate Successfully"}), 200
+    
 @app.route('/register',methods=['POST'])
 def register_user():
     email = request.form.get('email')
