@@ -166,3 +166,15 @@ def get_loggedIn_user(username):
         'profile_picture': base64.b64encode(image.get_data()).decode('utf-8') if image else None
     }
     return jsonify(user_details), 200
+
+@app.route('/user/check-existence/<string:username>', methods=['GET'])
+def check_user_existence(username):
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        return jsonify({"exists": True, "email": user.email}), 200
+    else:
+        return jsonify({"exists": False}), 200
