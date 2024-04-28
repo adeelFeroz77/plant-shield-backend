@@ -1,6 +1,7 @@
 import base64
 import datetime
 from app import db
+from sqlalchemy.sql import func
 
 class Image(db.Model):
     __tablename__ = 'image'
@@ -10,7 +11,7 @@ class Image(db.Model):
     image_extension = db.Column(db.String(120))
     entity_id = db.Column(db.Integer, nullable=False)
     entity_type_id = db.Column(db.Integer, db.ForeignKey('image_entity_type.id'), nullable=False)
-    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_date = db.Column(db.DateTime, server_default=func.now())
     
     def __init__(self, data,image_name,image_extension, entity_id, entity_type_id,created_date):
         self.data = data

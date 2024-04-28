@@ -75,28 +75,31 @@ def get_all_plants():
 # Read a specific plant
 @app.route('/plant/<int:plant_id>', methods=['GET'])
 def get_plant(plant_id):
-    plant = Plant.query.get(plant_id)
+    try:
+        plant = Plant.query.get(plant_id)
 
-    image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Plant).first()
-    image = Image.query.filter_by(entity_id=plant.id, entity_type_id=image_entity_type.id).first()
-    image_json = image.to_dict() if image else None
-    plant_data = {
-        'id': plant.id,
-        'plant_name': plant.plant_name,
-        'description': plant.description,
-        'species': plant.species,
-        'watering_schedule': plant.watering_schedule,
-        'sunlight_requirements': plant.sunlight_requirements,
-        'temperature_requirements': plant.temperature_requirements,
-        'care_instructions': plant.care_instructions,
-        'notes': plant.notes,
-        'is_favorite': plant.is_favorite,
-        'is_blooming': plant.is_blooming,
-        'tags': plant.tags,
-        'created_date': plant.created_date.isoformat(),
-        'plant_image': image_json
-    }
-    return jsonify({'plant': plant_data})
+        image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.Plant).first()
+        image = Image.query.filter_by(entity_id=plant.id, entity_type_id=image_entity_type.id).first()
+        image_json = image.to_dict() if image else None
+        plant_data = {
+            'id': plant.id,
+            'plant_name': plant.plant_name,
+            'description': plant.description,
+            'species': plant.species,
+            'watering_schedule': plant.watering_schedule,
+            'sunlight_requirements': plant.sunlight_requirements,
+            'temperature_requirements': plant.temperature_requirements,
+            'care_instructions': plant.care_instructions,
+            'notes': plant.notes,
+            'is_favorite': plant.is_favorite,
+            'is_blooming': plant.is_blooming,
+            'tags': plant.tags,
+            'created_date': plant.created_date,
+            'plant_image': image_json
+        }
+        return jsonify({'plant': plant_data})
+    except Exception as e:
+        return jsonify({'error': str(e)}),500
 
 # Update a plant
 @app.route('/plant/<int:plant_id>', methods=['PUT'])
