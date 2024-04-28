@@ -110,40 +110,44 @@ def detect_plant():
 # Get all added plants of a user
 @app.route('/user-plants/<int:user_id>', methods=['GET'])
 def get_all_added_plants_of_user(user_id):
-    user_plants = UserPlant.query.filter_by(user_id = user_id)
-    image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.UserPlant).first()
+    try:
+        user_plants = UserPlant.query.filter_by(user_id = user_id)
+        image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.UserPlant).first()
 
-    if user_plants is None:
-        return jsonify({'error': 'No plants added'}), 404
+        if user_plants is None:
+            return jsonify({'error': 'No plants added'}), 404
+        
+        user_plant_list = []
+
+        for user_plant in user_plants:
+            image = Image.query.filter_by(entity_id=user_plant.id, entity_type_id=image_entity_type.id).first()
+            image_json = image.to_dict() if image else None
+            plant = Plant.query.get(user_plant.plant_id)
+            disease = DiseaseInfo.query.get(user_plant.current_disease)
+            plant_data = {
+                'id': user_plant.id,
+                'plant_name': plant.plant_name,
+                'description': plant.description,
+                'species': plant.species,
+                'watering_schedule': plant.watering_schedule,
+                'sunlight_requirements': plant.sunlight_requirements,
+                'temperature_requirements': plant.temperature_requirements,
+                'care_instructions': plant.care_instructions,
+                'notes': plant.notes,
+                'is_favorite': plant.is_favorite,
+                'is_blooming': plant.is_blooming,
+                'tags': plant.tags,
+                'user_plant_image': image_json,
+                'current_disease': disease.name,
+                'disease_description': disease.description,
+                'disaese_possbile_steps': disease.possible_steps,
+                'last_watered': user_plant.last_watered,
+                'date_added': user_plant.date_added
+            }
+
+            user_plant_list.append(plant_data)
+
+        return jsonify({'User Plants': user_plant_list}), 200
     
-    user_plant_list = []
-
-    for user_plant in user_plants:
-        image = Image.query.filter_by(entity_id=user_plant.id, entity_type_id=image_entity_type.id).first()
-        image_json = image.to_dict() if image else None
-        plant = Plant.query.get(user_plant.plant_id)
-        disease = DiseaseInfo.query.get(user_plant.current_disease)
-        plant_data = {
-            'id': user_plant.id,
-            'plant_name': plant.plant_name,
-            'description': plant.description,
-            'species': plant.species,
-            'watering_schedule': plant.watering_schedule,
-            'sunlight_requirements': plant.sunlight_requirements,
-            'temperature_requirements': plant.temperature_requirements,
-            'care_instructions': plant.care_instructions,
-            'notes': plant.notes,
-            'is_favorite': plant.is_favorite,
-            'is_blooming': plant.is_blooming,
-            'tags': plant.tags,
-            'user_plant_image': image_json,
-            'current_disease': disease.name,
-            'disease_description': disease.description,
-            'disaese_possbile_steps': disease.possible_steps,
-            'last_watered': user_plant.last_watered,
-            'date_added': user_plant.date_added
-        }
-
-        user_plant_list.append(plant_data)
-
-    return jsonify({'User Plants': user_plant_list}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
