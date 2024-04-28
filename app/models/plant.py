@@ -1,5 +1,6 @@
 from app import db
-import datetime
+from datetime import datetime
+from sqlalchemy.sql import func
 
 class Plant(db.Model):
     __tablename__ = 'plant'
@@ -15,7 +16,7 @@ class Plant(db.Model):
     is_favorite = db.Column(db.Boolean, default=False)
     is_blooming = db.Column(db.Boolean, default=False)
     tags = db.Column(db.String(200))
-    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_date = db.Column(db.DateTime, server_default=func.now())
 
     def __init__(self, plant_name, description, species, watering_schedule,sunlight_requirements,temperature_requirements,care_instructions,notes,is_favorite,is_blooming,tags,created_date):
         self.plant_name = plant_name

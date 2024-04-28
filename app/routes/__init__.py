@@ -5,6 +5,8 @@ from .image_routes import *
 from .plant_routes import *
 from .user_plant_routes import *
 from .otp_routes import *
+from .disease_routes import *
+from .detection_routes import *
 
 __all__ = []
 
