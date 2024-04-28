@@ -45,7 +45,10 @@ def update_detection(detection_id):
     detection = DetectionHistory.query.get(detection_id)
     if detection:
         try:
-            detection.is_accurate_prediction = data.get('is_accurate_prediction', detection.is_accurate_prediction)
+            res = data.get('is_accurate_prediction', detection.is_accurate_prediction)
+            if res:
+                res = bool(res)
+            detection.is_accurate_prediction = res
             db.session.commit()
             return jsonify({'message': 'Detection\'s feedback updated successfully'}), 200
         except Exception as e:
