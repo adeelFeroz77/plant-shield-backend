@@ -178,3 +178,17 @@ def check_user_existence(username):
         return jsonify({"exists": True, "email": user.email}), 200
     else:
         return jsonify({"exists": False}), 200
+    
+@app.route('/user/validate-current-password', methods=['GET'])
+def validate_current_password():
+    username = request.form.get('username')
+    curr_password = request.form.get('curr_password')
+    
+    if not curr_password:
+        return jsonify({"error": "Current password is required"}), 400
+
+    user = User.query.filter_by(username=username).first()
+    
+    if not user or not bcrypt.check_password_hash(user.password, curr_password):
+        return jsonify({'error': 'Invalid current password'}), 401
+    return jsonify({'message': 'Current password matched successfully'}), 200
