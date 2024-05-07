@@ -192,3 +192,11 @@ def validate_current_password():
     if not user or not bcrypt.check_password_hash(user.password, curr_password):
         return jsonify({'error': 'Invalid current password'}), 401
     return jsonify({'message': 'Current password matched successfully'}), 200
+
+def get_user_id_by_username(username):
+    if not username:
+        return None
+    user = User.query.filter_by(username = username).first()
+    if not user:
+        return None
+    return user.id

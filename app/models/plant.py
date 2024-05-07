@@ -8,28 +8,34 @@ class Plant(db.Model):
     plant_name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     species = db.Column(db.String(100))
-    watering_schedule = db.Column(db.String(50))
-    sunlight_requirements = db.Column(db.String(50))
-    temperature_requirements = db.Column(db.String(50))
-    care_instructions = db.Column(db.Text)
+    species_detail = db.Column(db.Text)
+    max_life = db.Column(db.Text)
+    watering_schedule = db.Column(db.String(100))
+    watering_schedule_detail = db.Column(db.Text)
+    sunlight_requirements = db.Column(db.String(100))
+    sunlight_requirements_detail = db.Column(db.Text)
+    temperature_requirements = db.Column(db.String(100))
+    temperature_requirements_detail = db.Column(db.Text)
+    humidity = db.Column(db.Text)
     notes = db.Column(db.Text)
     is_favorite = db.Column(db.Boolean, default=False)
-    is_blooming = db.Column(db.Boolean, default=False)
-    tags = db.Column(db.String(200))
     created_date = db.Column(db.DateTime, server_default=func.now())
 
-    def __init__(self, plant_name, description, species, watering_schedule,sunlight_requirements,temperature_requirements,care_instructions,notes,is_favorite,is_blooming,tags,created_date):
+    def __init__(self, plant_name, description, species,species_detail, max_life, watering_schedule, watering_schedule_detail, sunlight_requirements,sunlight_requirements_detail,temperature_requirements,temperature_requirements_detail,humidity,notes,is_favorite,created_date):
         self.plant_name = plant_name
         self.description = description
         self.species = species
+        self.species_detail = species_detail
+        self.max_life = max_life
         self.watering_schedule = watering_schedule
+        self.watering_schedule_detail = watering_schedule_detail
         self.sunlight_requirements=sunlight_requirements
+        self.sunlight_requirements_detail = sunlight_requirements_detail
         self.temperature_requirements=temperature_requirements
-        self.care_instructions=care_instructions
+        self.temperature_requirements_detail = temperature_requirements_detail
+        self.humidity = humidity
         self.notes=notes
         self.is_favorite=is_favorite
-        self.is_blooming=is_blooming
-        self.tags=tags
         self.created_date=created_date
 
     def __repr__(self):

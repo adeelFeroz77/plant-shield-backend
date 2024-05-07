@@ -3,13 +3,22 @@ from app import app, db
 from flask import request, jsonify, send_file
 from app.models import *
 from app.static import *
-from app.routes import image_routes
+from app.routes import image_routes, auth_routes
 from app.exceptions import *
 
 
-@app.route('/detections/<int:user_id>', methods=['GET'])
-def get_last_detections(user_id):
+@app.route('/detections/<string:username>', methods=['GET'])
+def get_last_detections(username):
+
     try:
+        if not username:
+            return jsonify({'error':'Username cannot be null'}), 400
+        
+        user_id = auth_routes.get_user_id_by_username(username)
+
+        if not user_id:
+            return jsonify({'error':'User not found'}), 404
+
         detections = DetectionHistory.query.\
             filter (DetectionHistory.user_id == user_id,
                     DetectionHistory.is_accurate_prediction == None,

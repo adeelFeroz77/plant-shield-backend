@@ -14,13 +14,13 @@ def add_user_plant():
 
     try:
         plant_id = data.get('plant_id',-1)
-        user_id = data.get('user_id',-1)
+        username = data.get('username',-1)
         last_watered = data.get('last_watered', datetime.utcnow())
         notes = data.get('notes', '')
         current_disease = data.get('current_disease', 'Healthy')
 
         plant = Plant.query.get(plant_id)
-        user = User.query.get(user_id)  
+        user = User.query.filter_by(username = username).first()  
         disease = disease_routes.get_disease_by_name(current_disease)
 
         if not plant:
@@ -89,12 +89,17 @@ def detect_plant():
             obj = {
                 'plant_id': plant.id,
                 'plant_name': plant.plant_name,
-                'plant_description':plant.description,
+                'description': plant.description,
                 'species': plant.species,
+                'species_detail': plant.species_detail,
+                'max_life': plant.max_life,
                 'watering_schedule': plant.watering_schedule,
+                'watering_schedule_detail': plant.watering_schedule_detail,
                 'sunlight_requirements': plant.sunlight_requirements,
+                'sunlight_requirements_details': plant.sunlight_requirements_detail,
                 'temperature_requirements': plant.temperature_requirements,
-                'care_instructions': plant.care_instructions,
+                'temperature_requirements_detail': plant.temperature_requirements_detail,
+                'humidity': plant.humidity,
                 'notes': plant.notes,
                 'disease_name': disease.name,
                 'disease_description': disease.description,
@@ -108,9 +113,17 @@ def detect_plant():
         return jsonify({'exception': str(e)}), 500
     
 # Get all added plants of a user
-@app.route('/user-plants/<int:user_id>', methods=['GET'])
-def get_all_added_plants_of_user(user_id):
+@app.route('/user-plants/<string:username>', methods=['GET'])
+def get_all_added_plants_of_user(username):
     try:
+        if not username:
+            return jsonify({'error':'Username cannot be null'}), 400
+        
+        user_id = auth_routes.get_user_id_by_username(username)
+
+        if not user_id:
+            return jsonify({'error':'User not found'}), 404
+
         user_plants = UserPlant.query.filter_by(user_id = user_id)
         image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.UserPlant).first()
 
@@ -129,14 +142,16 @@ def get_all_added_plants_of_user(user_id):
                 'plant_name': plant.plant_name,
                 'description': plant.description,
                 'species': plant.species,
+                'species_detail': plant.species_detail,
+                'max_life': plant.max_life,
                 'watering_schedule': plant.watering_schedule,
+                'watering_schedule_detail': plant.watering_schedule_detail,
                 'sunlight_requirements': plant.sunlight_requirements,
+                'sunlight_requirements_details': plant.sunlight_requirements_detail,
                 'temperature_requirements': plant.temperature_requirements,
-                'care_instructions': plant.care_instructions,
+                'temperature_requirements_detail': plant.temperature_requirements_detail,
+                'humidity': plant.humidity,
                 'notes': plant.notes,
-                'is_favorite': plant.is_favorite,
-                'is_blooming': plant.is_blooming,
-                'tags': plant.tags,
                 'user_plant_image': image_json,
                 'current_disease': disease.name,
                 'disease_description': disease.description,

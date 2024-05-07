@@ -11,30 +11,39 @@ from app.exceptions import *
 def create_plant():
     data = request.form
     try:
-        plant_name = data.get('plant_name', '')
-        description = data.get('description', '')
-        species = data.get('species', '')
-        watering_schedule = data.get('watering_schedule', '')
-        sunlight_requirements = data.get('sunlight_requirements', '')
-        temperature_requirements = data.get('temperature_requirements', '')
-        care_instructions = data.get('care_instructions', '')
-        notes = data.get('notes', '')
+        plant_name = data.get('plant_name')
+        description = data.get('description')
+        species = data.get('species')
+        species_detail = data.get('species_detail')
+        max_life = data.get('max_life')
+        watering_schedule = data.get('watering_schedule')
+        watering_schedule_detail = data.get('watering_schedule_detail')
+        sunlight_requirements = data.get('sunlight_requirements')
+        sunlight_requirements_detail = data.get('sunlight_requirements_detail')
+        temperature_requirements = data.get('temperature_requirements')
+        temperature_requirements_detail = data.get('temperature_requirements_detail')
+        humidity = data.get('humidity')
+        notes = data.get('notes')
         is_favorite = bool(data.get('is_favorite', False))
-        is_blooming = bool(data.get('is_blooming', False))
-        tags = data.get('tags', '')
+
+        if plant_name is None:
+            return jsonify({'Data error': 'Plant name cannot be null'}), 400
 
         new_plant = Plant(
             plant_name=plant_name,
             description=description,
             species=species,
+            species_detail= species_detail,
+            max_life= max_life,
             watering_schedule=watering_schedule,
+            watering_schedule_detail= watering_schedule_detail,
             sunlight_requirements=sunlight_requirements,
+            sunlight_requirements_detail= sunlight_requirements_detail,
             temperature_requirements=temperature_requirements,
-            care_instructions=care_instructions,
+            temperature_requirements_detail= temperature_requirements_detail,
+            humidity= humidity,
             notes=notes,
             is_favorite=is_favorite,
-            is_blooming=is_blooming,
-            tags=tags,
             created_date=datetime.utcnow()
         )
         db.session.add(new_plant)
@@ -65,6 +74,19 @@ def get_all_plants():
             {
                 'id': plant.id,
                 'plant_name': plant.plant_name,
+                'description': plant.description,
+                'species': plant.species,
+                'species_detail': plant.species_detail,
+                'max_life': plant.max_life,
+                'watering_schedule': plant.watering_schedule,
+                'watering_schedule_detail': plant.watering_schedule_detail,
+                'sunlight_requirements': plant.sunlight_requirements,
+                'sunlight_requirements_details': plant.sunlight_requirements_detail,
+                'temperature_requirements': plant.temperature_requirements,
+                'temperature_requirements_detail': plant.temperature_requirements_detail,
+                'humidity': plant.humidity,
+                'notes': plant.notes,
+                'is_favorite': plant.is_favorite,
                 'created_date': plant.created_date.isoformat(),
                 'plant_image': Image.query.filter_by(entity_id=plant.id, entity_type_id=image_entity_type.id).first().to_dict() if Image.query.filter_by(entity_id=plant.id, entity_type_id=image_entity_type.id).first() else None
             }
@@ -86,14 +108,17 @@ def get_plant(plant_id):
             'plant_name': plant.plant_name,
             'description': plant.description,
             'species': plant.species,
+            'species_detail': plant.species_detail,
+            'max_life': plant.max_life,
             'watering_schedule': plant.watering_schedule,
+            'watering_schedule_detail': plant.watering_schedule_detail,
             'sunlight_requirements': plant.sunlight_requirements,
+            'sunlight_requirements_details': plant.sunlight_requirements_detail,
             'temperature_requirements': plant.temperature_requirements,
-            'care_instructions': plant.care_instructions,
+            'temperature_requirements_detail': plant.temperature_requirements_detail,
+            'humidity': plant.humidity,
             'notes': plant.notes,
             'is_favorite': plant.is_favorite,
-            'is_blooming': plant.is_blooming,
-            'tags': plant.tags,
             'created_date': plant.created_date,
             'plant_image': image_json
         }
@@ -111,14 +136,17 @@ def update_plant(plant_id):
             plant.plant_name = data.get('plant_name', plant.plant_name)
             plant.description = data.get('description', plant.description)
             plant.species = data.get('species', plant.species)
+            plant.species_detail = data.get('species_detail', plant.species_detail)
+            plant.max_life = data.get('max_life', plant.max_life)
             plant.watering_schedule = data.get('watering_schedule', plant.watering_schedule)
+            plant.watering_schedule_detail = data.get('watering_schedule_detail', plant.watering_schedule_detail)
             plant.sunlight_requirements = data.get('sunlight_requirements', plant.sunlight_requirements)
+            plant.sunlight_requirements_detail = data.get('sunlight_requirements_details', plant.sunlight_requirements_detail)
             plant.temperature_requirements = data.get('temperature_requirements', plant.temperature_requirements)
-            plant.care_instructions = data.get('care_instructions', plant.care_instructions)
+            plant.temperature_requirements_detail = data.get('temperature_requirements_detail', plant.temperature_requirements_detail)
+            plant.humidity = data.get('humidity', plant.humidity)
             plant.notes = data.get('notes', plant.notes)
-            plant.is_favorite = bool(data.get('is_favorite', plant.is_favorite))
-            plant.is_blooming = bool(data.get('is_blooming', plant.is_blooming))
-            plant.tags = data.get('tags', plant.tags)
+            plant.is_favorite = data.get('is_favorite', plant.is_favorite)
             db.session.commit()
             if request.files['plant_image']:
                 new_image = request.files['plant_image']

@@ -60,7 +60,7 @@ def get_all_disease():
         return jsonify({'error':str(e)}),500
 
 # Read a specific disease
-@app.route('/plant/<int:disease_id>', methods=['GET'])
+@app.route('/disease/<int:disease_id>', methods=['GET'])
 def get_disease_by_id(disease_id):
     try:
         disease = DiseaseInfo.query.get(disease_id)
