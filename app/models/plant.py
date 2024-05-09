@@ -16,12 +16,13 @@ class Plant(db.Model):
     sunlight_requirements_detail = db.Column(db.Text)
     temperature_requirements = db.Column(db.String(100))
     temperature_requirements_detail = db.Column(db.Text)
-    humidity = db.Column(db.Text)
+    humidity = db.Column(db.String(100))
+    humidity_detail = db.Column(db.Text)
     notes = db.Column(db.Text)
     is_favorite = db.Column(db.Boolean, default=False)
     created_date = db.Column(db.DateTime, server_default=func.now())
 
-    def __init__(self, plant_name, description, species,species_detail, max_life, watering_schedule, watering_schedule_detail, sunlight_requirements,sunlight_requirements_detail,temperature_requirements,temperature_requirements_detail,humidity,notes,is_favorite,created_date):
+    def __init__(self, plant_name, description, species,species_detail, max_life, watering_schedule, watering_schedule_detail, sunlight_requirements,sunlight_requirements_detail,temperature_requirements,temperature_requirements_detail,humidity,humidity_detail,notes,is_favorite,created_date):
         self.plant_name = plant_name
         self.description = description
         self.species = species
@@ -34,6 +35,7 @@ class Plant(db.Model):
         self.temperature_requirements=temperature_requirements
         self.temperature_requirements_detail = temperature_requirements_detail
         self.humidity = humidity
+        self.humidity_detail = humidity_detail
         self.notes=notes
         self.is_favorite=is_favorite
         self.created_date=created_date

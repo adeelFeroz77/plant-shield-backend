@@ -23,6 +23,7 @@ def create_plant():
         temperature_requirements = data.get('temperature_requirements')
         temperature_requirements_detail = data.get('temperature_requirements_detail')
         humidity = data.get('humidity')
+        humidity_detail = data.get('humidity_detail')
         notes = data.get('notes')
         is_favorite = bool(data.get('is_favorite', False))
 
@@ -42,6 +43,7 @@ def create_plant():
             temperature_requirements=temperature_requirements,
             temperature_requirements_detail= temperature_requirements_detail,
             humidity= humidity,
+            humidity_detail = humidity_detail,
             notes=notes,
             is_favorite=is_favorite,
             created_date=datetime.utcnow()
@@ -85,6 +87,7 @@ def get_all_plants():
                 'temperature_requirements': plant.temperature_requirements,
                 'temperature_requirements_detail': plant.temperature_requirements_detail,
                 'humidity': plant.humidity,
+                'humidity_detail': plant.humidity_detail,
                 'notes': plant.notes,
                 'is_favorite': plant.is_favorite,
                 'created_date': plant.created_date.isoformat(),
@@ -117,6 +120,7 @@ def get_plant(plant_id):
             'temperature_requirements': plant.temperature_requirements,
             'temperature_requirements_detail': plant.temperature_requirements_detail,
             'humidity': plant.humidity,
+            'humidity_detail':plant.humidity_detail,
             'notes': plant.notes,
             'is_favorite': plant.is_favorite,
             'created_date': plant.created_date,
@@ -145,6 +149,7 @@ def update_plant(plant_id):
             plant.temperature_requirements = data.get('temperature_requirements', plant.temperature_requirements)
             plant.temperature_requirements_detail = data.get('temperature_requirements_detail', plant.temperature_requirements_detail)
             plant.humidity = data.get('humidity', plant.humidity)
+            plant.humidity_detail = data.get('humidity_detail', plant.humidity_detail)
             plant.notes = data.get('notes', plant.notes)
             plant.is_favorite = data.get('is_favorite', plant.is_favorite)
             db.session.commit()

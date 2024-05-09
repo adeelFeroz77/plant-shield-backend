@@ -66,318 +66,468 @@ with engine.connect() as connection:
     if result.rowcount == 0:
         connection.execute(text(
             '''
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Apple',
-	'Apple, (Malus domestica), domesticated tree and fruit of the rose family (Rosaceae), one of the most widely cultivated tree fruits. Apples are predominantly grown for sale as fresh fruit, though apples are also used commercially for vinegar, juice, jelly, applesauce, and apple butter and are canned as pie stock. A significant portion of the global crop also is used for cider, wine, and brandy. Fresh apples are eaten raw or cooked. There are a variety of ways in which cooked apples are used; frequently, they are used as a pastry filling, apple pie being perhaps the archetypal American dessert. Especially in Europe, fried apples characteristically accompany certain dishes of sausage or pork. Apples provide vitamins A and C, are high in carbohydrates, and are an excellent source of dietary fibre.',
-	'Malus domestica',
-	'Atleast 6 to 8 Hours',
-	'0 to 35 degree Celcius',
-	'24',
-	false,
-	false,
-	'Apple trees prefer full sun, well-drained soil, and protection from high winds. They can grow in a variety of soils, but fertile sandy soils and loams produce the best crops.
-Water young trees regularly, especially those on dwarfing or semi-dwarfing rootstocks, to help establish the root system. When fruiting, apple trees require regular watering or irrigation.
-In early spring, feed apple trees with a high potassium fertilizer, such as blood, fish, and bonemeal, or Vitax Q4. Scatter one handful per square meter around trees growing in bare soil, and one and a half around those growing in grass. After the tree starts producing fruit, provide it with a nitrogen-heavy fertilizer. Fertilize during the growing season, starting in early spring and finishing by July. Fertilizing too late in the season can cause trees to grow when they should be shutting down for the winter.
-Prune apple trees in the fall after producing fruit.
-Protect the tree from frost damage and pests and diseases. Apple trees are one of the most pest-susceptible fruits, but it is possible to avoid pesticides.
-Refresh mulch periodically, but pull it away from the trunk so that it doesn''t rot. This also helps to prevent rodents from nesting in it over the winter and chewing on the tree''s bark.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Blueberry', 
-	'The plants are deciduous perennial shrubs that range in size from 60 cm (24 inches) tall for lowbush blueberries (Vaccinium angustifolium) up to 4 metres (13 feet) tall for highbush (V. corymbosum) cultivars. They have simple elliptical leaves that are arranged alternately along the dotted stems. The plants produce clusters of small urn-shaped flowers that range in colour from white to pale pink. The fruits are true berries with many small seeds and are a deep indigo to black colour when ripe.', 
-	'Vaccinium angustifolium',
-	'Atleast 6 to 8 Hours', 
-	'20 to 26 degree Celcius', 
-	'48', 
-	false, 
-	false, 
-	'Watering
-Water blueberry plants during the day to keep the soil moist but not soggy. During the growing season, water them with at least 1 inch of water per week, and up to 4 inches per week when the fruit is ripening. Water evenly on all sides of the plant. Underwatered plants may produce smaller berries, while overwatered plants may produce large, bland fruit.
-Soil
-Blueberries prefer acidic, well-drained soil with a pH between 4.5 and 5.5. If you have heavy clay soil, you can improve drainage by amending it with organic matter like compost. You can also use sulfur to amend the pH in the fall before planting.
-Sunlight
-Blueberries should be planted in full sun, but they can tolerate some shade.
-Spacing
-Depending on the variety, blueberry bushes should be spaced 3–4 feet apart to allow for proper growth and air circulation.
-Feeding
-Blueberry bushes can be fed with a high potash fertilizer, such as liquid tomato feed, throughout the growing season. Container plants should be fed once a month with a liquid fertilizer specifically for ericaceous plants.
-Pruning
-Blueberry bushes don''t require much maintenance, but you should prune them in winter after leaf-fall, when the plant is dormant. You can prune off branches that contain disease, low hanging branches, and ones that cross over in the middle.
-Repotting
-Young plants that are initially in a 30 cm (1 ft) wide container should be repotted into a larger, 45–50 cm (18–20 in) pot once roots start to appear through the drainage hole in the base.
-Mulching
-Container plants will need regular feeding using a liquid fertilizer specially formulated for acid loving plants. Plants in the ground simply need mulching topping up using an acidic organic material such as leaf mold, bark chippings, pine needles, or composted sawdust. Do not use manure, which is both too rich and too alkaline for blueberries.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Cherry',
-	'Cherry, any of various trees belonging to the genus Prunus and their edible fruits. Commercial cherry production includes tart cherries (Prunus cerasus), which are frozen or canned and used in sauces and pastries, and sweet cherries (P. avium), which are usually consumed fresh and are the principal type preserved in true or imitation maraschino liqueur. A number of species, hybrids, and cultivars are grown as ornamentals for their prolific spring flowers, and the dark red wood of some cherry species is especially esteemed for the manufacture of fine furniture.
-
-Most cherry species are native to the Northern Hemisphere. Some 10 to 12 species are recognized in North America and a similar number in Europe. The greatest concentration of species, however, appears to be in eastern Asia. The native habitat of the species from which the cultivated cherries came is believed to be in western Asia and eastern Europe from the Caspian Sea to the Balkans. Cherries are grown in all areas of the world where winter temperatures are not too severe and where summer temperatures are moderate. They require winter cold in order to blossom in spring. The trees bloom quite early in the spring, just after peaches and earlier than apples.',
-	'Prunus cerasus',
-	'Atleast 6 to 8 Hours',
-	'5 to 35 degree Celcius',
-	'62',
-	false,
-	false,
-	'Location
-Plant cherry trees in an open area with full sun exposure and in a protected area, such as a flat or sloped area. Avoid areas that may experience late spring frosts and areas near trees or bushes that may compete for water.
-Soil
-Test your soil before planting to determine its structure and acidity. Plant in rich, well-draining soil that can retain some moisture.
-Watering
-Water new trees weekly and potted trees twice a week. In winter, water once a week. During hot and dry months, provide supplemental irrigation. Infrequent, shallow watering can cause the fruit to dry up and drop.
-Fertilizing
-Fertilize in early spring and regularly throughout the growing season with a tree-specific fertilizer to encourage healthy growth.
-Pruning
-Prune in mid-summer when conditions are dry, but never in winter.
-Mulching
-Spread mulch to help retain moisture and limit weed growth. In February, give the roots a good mulch with well-rotted manure or garden compost.
-Protecting from birds
-Secure netting over the plant to protect the fruits from birds in the summer.
-Protecting from frost
-If frost is forecast, protect any early blossom with horticultural fleece.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Corn',
-	'The corn plant is a tall annual grass with a stout, erect, solid stem. The large narrow leaves have wavy margins and are spaced alternately on opposite sides of the stem. Staminate (male) flowers are borne on the tassel terminating the main axis of the stem. The pistillate (female) inflorescences, which mature to become the edible ears, are spikes with a thickened axis, bearing paired spikelets in longitudinal rows; each row of paired spikelets normally produces two rows of grain. Varieties of yellow and white corn are the most popular as food, though there are varieties with red, blue, pink, and black kernels, often banded, spotted, or striped. Each ear is enclosed by modified leaves called shucks or husks.',
-	'Zea mays',
-	'Atleast 6 to 8 Hours',
-	'18 to 27 degree Celcius',
-	'64',
-	false,
-	false,
-	'Light
-Corn plants prefer bright, indirect light, but can tolerate low light. Place them near an east-facing window, or filter bright sunlight through a sheer curtain if your window faces south or west. Avoid direct sunlight and harsh sunlight to avoid sunburn.
-Water
-Water corn plants when the top inch of soil feels dry in spring and summer, and when the top two inches of soil feel dry in fall and winter. Pour off any excess water that collects in the saucer.
-Humidity
-Corn plants prefer a humid environment. Spray with a mister every few days, or group the plant with other plants or set the pot on a gravel tray to increase humidity. You can also use a humidifier or place a water tray near the plant.
-Temperature
-Corn plants prefer temperatures between 65-80°F (18-27°C). Avoid exposing them to drafts or extreme temperature fluctuations.
-Fertilizer
-Feed with liquid fertilizer once a month in spring and summer. Use a balanced, water-soluble fertilizer during the growing season to provide essential nutrients.
-Repotting
-Repot every couple of years to help your plant grow.
-Location
-Protect corn plants from drafts and heat by moving them away from cold or drafty windows, air conditioners, and heating vents.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Grape',
-	'The grape is usually a woody vine, climbing by means of tendrils (modified branches) and when untrained often reaching a length of 17 metres (56 feet) or more. In arid regions it may form an almost erect shrub. The edible leaves are alternate, palmately lobed, and always tooth-edged. Small greenish flowers, in clusters, precede the fruit, which varies in colour from almost black to green, red, and amber. Botanically, the fruit is a berry, more or less globular, within the juicy pulp of which lie the seeds. In many varieties the fruit develops a whitish powdery coating, or bloom.',
-	'Genus Vitis',
-	'Atleast 7 to 8 Hours',
-	'25 to 32 degree Celcius',
-	'62',
-	false,
-	false,
-	'Sunlight
-Grape plants need full sun all day, so plant them in a sunny location, preferably south-facing, to maximize ripening.
-Soil
-Grape plants need deep, well-draining soil that''s free of weeds and grass. The soil pH should be slightly acidic to neutral.
-Watering
-Water young grape plants regularly during their first two years, about 1 inch per week. After the vines are established, they seldom need watering, and overwatering can cause leaves to drop. Water deeply and regularly in spring and summer, but don''t water erratically, as this may cause the fruit to split.
-Temperature
-The best temperature for growing grapes is 77ºF to 90ºF.
-Pruning
-In the first couple of years, don''t allow the vine to produce fruit, as its roots need to be strong enough to bear the weight. Prune in March or April, removing at least 90 percent of the previous season''s growth. In the first year, cut the buds except for 2 or 3, then select healthy canes and cut back the rest. In the second year, prune back all the canes, leaving a couple of buds on each arm.
-Fertilizing
-The fertilizer requirements of bunch grapes can vary widely depending on vine vigor and crop size. You can use urea (46-0-0) at 2 to 3 ounces (1/2 cup) or bloodmeal (12-0-0) at 8 ounces (1 ½ cups) per vine to supply the desired amounts of nitrogen.
-Mulching
-Mulching is not usually recommended for grapes because mulch will keep the soil temperature too cool. However, you can use mulch to maintain the moisture around the vines.
-Birds
-Use a mesh to keep the birds away from budding fruit.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Orange',
-	'Orange, any of several species of small trees or shrubs of the genus Citrus of the family Rutaceae and their nearly round fruits, which have leathery and oily rinds and edible, juicy inner flesh. A number of species and varieties of orange are economically important, namely the China orange, also called the sweet, or common, orange (Citrus ×sinensis); the mandarin orange (C. reticulata), some varieties of which are called tangerines; and the sour, or Seville, orange (C. ×aurantium), which is less extensively grown. Common varieties of the sweet orange include the Jaffa, from Israel, the seedless navel, and the Maltese, or blood, orange.',
-	'Citrus × sinensis',
-	'Atleast 6 to 8 Hours',
-	'18 to 29 degree Celcius',
-	'8',
-	false,
-	false,
-	'Light: Orange trees need 6–8 hours of direct sunlight daily.
-Water: Water when the top two inches of soil are dry, but don''t overwater, as this can damage the roots. Established trees need about one inch of water per week, but the amount depends on rainfall.
-Soil: Orange trees prefer slightly acidic to neutral soil with a pH of 6.0–7.0. They also need well-draining soil, so you can build up a small mound at the bottom of the planting hole to improve drainage.
-Fertilizer: Fertilize your tree weekly in spring and summer, or three times a year, to encourage more fruit and prettier flowers.
-Pruning: Trim your tree regularly and prune away sprouts as they appear.
-Temperature: Orange trees thrive in subtropical regions with warm temperatures and moderate humidity. They can be grown outdoors in USDA hardiness zones 9–11, but begin to go dormant when temperatures drop below 50°F.
-Pests: Protect your tree from pests like aphids and scale.
-Planting: The best time to plant an orange tree is in spring or early autumn. In spring, the soil is warming but still mild, and in autumn, the tree can establish itself before the cold winter. Dig a hole that''s twice as wide and just as deep as the root ball.
-Harvesting: Ripe citrus fruit can stay on the tree until late winter, but you should harvest it all before the tree blooms in spring, and before any significant freeze.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Peach',
-	'Small to medium-sized, peach trees seldom reach 6.5 meters (21 feet) in height. Under cultivation, however, they are usually kept between 3 and 4 meters (10 and 13 feet) by pruning. The leaves are glossy green, lance-shaped, and long pointed; they usually have glands at their bases that secrete a fluid to attract ants and other insects. The flowers, borne in the leaf axils, are arranged singly or in groups of two or three at nodes along the shoots of the previous season’s growth. The five petals, usually pink but occasionally white, five sepals, and three whorls of stamens are borne on the outer rim of the short tube, known as the hypanthium, that forms the base of the flower.',
-	'Prunus persica',
-	'Atleast 6 to 8 Hours',
-	'5 to 35 degree Celcius',
-	'12',
-	false,
-	false,
-	'Sunlight
-Peach trees need full sun, at least eight hours a day in the summer. Avoid planting them in shady areas or where other trees may compete for roots.
-Soil
-Peach trees prefer well-drained, moderately fertile soil with a pH of 6–6.5. The best soil is a humus-rich, sandy loam. Avoid low-lying areas where drainage may be poor, as even a short period of soggy soil can kill a peach tree.
-Watering
-Water new trees deeply two to three times a week, and keep the soil moist throughout the growing season. Water more generously during hot, sunny weather.
-Fertilizing
-In late winter, feed peach trees with a continuous release feed, followed by a mulch of well-rotted manure. In early spring, fertilize with a slow-release fertilizer that''s high in phosphorus and low in nitrogen. Six weeks after planting, spread one pound of a balanced 10-10-10 fertilizer around the root zone.
-Pruning
-Prune annually in the spring when the buds start to swell, or in late summer after fruiting. Pruning increases fruit production, as peaches bear fruit on second-year wood. In the tree''s first, second, and third years, prune in early summer. After the third year, prune in late April, and maintain the tree''s shape by cutting shoots growing from the center of the tree.
-Mulching
-Mulch annually to feed the soil and suppress weeds.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Pepper Bell',
-	'Bell pepper, (Capsicum annuum), pepper cultivar in the nightshade family (Solanaceae), grown for its thick, mild fruits. Bell peppers are used in salads and in cooked dishes and are high in vitamin A and vitamin C. The large furrowed fruits are technically berries and can be green, red, yellow, or orange. Bell pepper plants are grown as annuals, and the green varieties are harvested before the appearance of red or yellow pigment—generally about 60–80 days after transplanting.',
-	'Capsicum annuum',
-	'Atleast 6 to 8 Hours',
-	'20 to 28 degree Celcius',
-	'48',
-	false,
-	false,
-	'Sunlight
-Bell peppers need at least 6–8 hours of direct sunlight per day. Avoid planting them near taller crops that block the sun. If you live in a hot climate, you can use shade cloth or nearby plants to manage temperatures.
-Soil
-Bell peppers grow best in nutrient-rich, well-drained, loamy soil with a balanced pH level of 6.5–7. When planting, mix compost or other organic matter into the soil.
-Water
-Water bell peppers regularly to moisten the soil about 6 inches deep, then let it dry slightly. Aim for 1–2 inches of water per week, but more when it''s hotter. Drip irrigation works best, and soaker hoses provide the deep watering needed. Watering is especially important during fruit set and as the bells mature.
-Fertilizer
-Mix a continuous-release fertilizer into the soil at planting and replenish as directed during the growing season. Switch to a high potash feed when the first fruit has set.
-Support
-Support bell pepper plants with bamboo canes or similar and tie them in as they grow.
-Pinch out growing tip
-When plants reach about 8 inches high, pinch out the growing tip to encourage bushy growth and better cropping.
-Prune early flowers and fruits
-Remove early flowers and fruits from smaller seedlings so the plant can grow larger before setting fruit.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Potato',
-	'The potato is one of some 150 tuber-bearing species of the genus Solanum (a tuber is the swollen end of an underground stem). The compound leaves are spirally arranged; each leaf is 20–30 cm (about 8–12 inches) long and consists of a terminal leaflet and two to four pairs of leaflets. The white, lavender, or purple flowers have five fused petals and yellow stamens. The fruit is a small poisonous berry with numerous seeds.',
-	'Solanum tuberosum',
-	'Atleast 6 to 10 Hours',
-	'7 to 21 degree Celcius',
-	'24',
-	false,
-	false,
-	'Sunlight
-Potato plants need full sun to produce the best yields, but may need some afternoon shade in hot summers.
-Soil
-Potato plants prefer well-drained soil that''s high in organic matter. Loosen the soil regularly to prevent compaction and encourage root development. Deep soils with good water retention and aeration give best growth and yields.
-Water
-Water potatoes regularly, especially during warm, dry spells. Potato plants absorb a lot of water, so be prepared to water them frequently, daily if necessary, in hot conditions. The taller the plants become the more water they will need.
-Fertilizer
-Feed potatoes every three to four weeks during key growth periods with a specialty fertilizer that contains high levels of phosphorus and potassium.
-Earthing up
-As the plants grow, use a spade or hoe to cover the shoots with soil to stop the developing tubers becoming green and inedible. This is called "earthing up" and increases eventual yield and protects from late frosts. Leave the top few centimeters poking out the top.
-Harvesting
-Once the plants have died back and the leaves have turned yellow, it is time to harvest the potatoes. Carefully dig the tubers out of the ground and store them in a dry, dark and cool place. Let the potatoes dry there for about two weeks before processing or storing them.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Raspberry',
-	'Raspberries are perennial plants with canes that live two years each. The canes are either armed with prickles or smooth, and many only produce fruit in their second year. Often reaching more than 1.8 metres (6 feet) in height, the canes bear compound leaves with three or more toothed leaflets, depending on the species or cultivar. The leaf undersides are characteristically white to gray in colour and often hairy. The white to pink flowers have five petals and produce juicy red, purple, or black (rarely orange, amber, or pale yellow) fruit. The core of the delicate fruit remains on the plant when picked, unlike that of the blackberry. Though they are commonly called “berries,” the fruit is technically an aggregate of drupelets (small drupes), each of which contains a single seed.',
-	'Rubus idaeus',
-	'Atleast 6 to 8 Hours',
-	'10 to 32 degree Celcius',
-	'24',
-	false,
-	false,
-	'Sunlight
-Raspberry plants need at least six hours of full sun each day.
-Watering
-Water raspberry plants during the day, giving them about 1–2 inches per week during the growing season and up to 4 inches per week during harvest. Keep the soil around the roots moist for at least one week.
-Fertilizing
-In the first year, add nitrogen or a 10-10-10 nitrogen fertilizer after planting and the soil has settled, keeping about 3–4 inches away from the base of the plant. In subsequent years, add a higher amount of nitrogen fertilizer.
-Mulching
-Spread mulch over the soil in a layer 7.5 cm (3 in) deep to help maintain moisture and control weeds. Garden compost is ideal, but avoid alkaline mushroom compost.
-Pruning
-Most raspberries should be pruned straight after planting, cutting the stems down to 25 cm (10 in) tall. However, don''t prune summer-fruiting raspberries bought as "long canes".
-Support
-Most raspberries will benefit from a trellis system, especially trailing varieties. Use steel posts about 7 ft high and 8 ft apart and buried at least one ft into the ground with two to three horizontal guide wires.
-Spacing
-Space plants 45–60 cm (18–24 in) apart, with 1.8 m (6 ft) between rows.
-Planting
-Dig a hole slightly larger than the container and work the soil at the bottom of the hole so that it''s loose and aerated. The first roots should be no more than 5 cm (2 in) below the soil surface.');
-
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Soybean',
-	'The soybean is an erect branching plant and can reach more than 2 metres (6.5 feet) in height. The self-fertilizing flowers are white or a shade of purple. Seeds can be yellow, green, brown, black, or bicoloured, though most commercial varieties have brown or tan seeds, with one to four seeds per pod.',
-	'Glycine max',
-	'Atleast 6 to 8 Hours',
-	'15 to 25 degree Celcius',
-	'24',
-	false,
-	false,
-	'Soybean plants are best grown in full sun. Choose a location that will receive at least 6 hours of full sun each day.Soybean plants need a well drained soil enriched with plenty of organic matter. Prepare soil by weeding it thoroughly, digging it over to loosen it and adding aged animal manure or compost. Keep the area free of weeds until planting.');
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Apple', 
+		'Apple, (Malus domestica), domesticated tree and fruit of the rose family (Rosaceae), one of the most widely cultivated tree fruits. Apples are predominantly grown for sale as fresh fruit, though apples are also used commercially for vinegar, juice, jelly, applesauce, and apple butter and are canned as pie stock. A significant portion of the global crop also is used for cider, wine, and brandy. Fresh apples are eaten raw or cooked. There are a variety of ways in which cooked apples are used; frequently, they are used as a pastry filling, apple pie being perhaps the archetypal American dessert. Especially in Europe, fried apples characteristically accompany certain dishes of sausage or pork. Apples provide vitamins A and C, are high in carbohydrates, and are an excellent source of dietary fibre.',
+		'Malus domestica', 
+		'Malus domestica is the common apple tree, cultivated for its edible fruits. There are over 7,500 known cultivars of apples worldwide, with a vast variety in size, flavor, color, and ripening time.',
+		'The lifespan of an apple tree depends on the type of tree, with standard and pear trees living for over 50 years, while dwarf and semi-dwarf trees living for 15–25 years. Dwarf and semi-dwarf trees reach bearing age sooner, but their productive life is also shorter. In ideal conditions, a fruit trees lifespan may be longer',
+		'24', 
+		'Water young trees regularly, especially those on dwarfing or semi-dwarfing rootstocks, to help establish the root system. When fruiting, apple trees require regular watering or irrigation. The frequency of watering depends on factors such as weather and soil moisture.',
+		'6 to 8 hours',
+		'Apple trees require ample sunlight for proper growth and fruit production. Ensure that they are planted in a location where they receive adequate sunlight throughout the day.',
+		'0 to 35°C', 
+		'Apple trees can tolerate a wide range of temperatures, but they thrive in moderate climates with temperatures between 15 to 25°C. Extreme temperatures can affect fruit development and overall tree health.',
+		'40-60%', 
+		'Apple trees can tolerate a range of humidity levels, but moderate humidity (40-60%) is ideal.  Very high humidity can increase the risk of fungal diseases.',
+		false,
+	NOW());
 	
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Squash',
-	'Squash, (genus Cucurbita), genus of flowering plants in the gourd family (Cucurbitaceae), many of which are widely cultivated as vegetables and for livestock feed. Squashes are native to the New World, where they were cultivated by indigenous peoples before European settlement. The fruit of edible species is usually served as a cooked vegetable, and the seeds and blossoms may also be cooked and eaten.',
-	'Genus Cucurbita',
-	'Atleast 6 to 8 Hours',
-	'20 to 38 degree Celcius',
-	'24',
-	false,
-	false,
-	'Watering
-Squash plants need a lot of water, especially when they are fruiting. Water them early in the morning, and try to give them at least 1 inch of water per week. Avoid getting the leaves wet, as this can lead to fungal diseases. For containers, keep an eye on the soil as it will dry out faster than soil in the ground.
-Soil
-Squash plants grow best in rich, well-drained soil with a pH of 6.0 to 6.7. You can improve your soil by mixing in compost or other organic matter.
-Sunlight
-Squash plants grow best in full sun, so try to plant them on a south or southeast facing slope.
-Feeding
-Once the first fruits start to swell, feed your squash plants every 10 to 14 days with a high potassium liquid fertilizer. You can also use a continuous-release plant food.
-Mulching
-After planting, cover the soil with a thick layer of mulch, such as garden compost, to help retain moisture. However, leave a gap around the base of the plant stem to prevent dampness and rotting.
-Spacing
-Give squash plants room to sprawl by planting them 3 to 6 feet apart.
-Support
-Winter squash and pumpkins need space to climb and scramble, so provide them with strong supports, such as a trellis or arch.
-Diseases
-If your squash plants are affected by common diseases like powdery mildew or downy mildew, treat them at the first sign. You can use a fungicide like Daconil to treat squash plants up until the day of harvest');
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Blueberry', 
+		'The plants are deciduous perennial shrubs that range in size from 60 cm (24 inches) tall for lowbush blueberries (Vaccinium angustifolium) up to 4 metres (13 feet) tall for highbush (V. corymbosum) cultivars. They have simple elliptical leaves that are arranged alternately along the dotted stems. The plants produce clusters of small urn-shaped flowers that range in colour from white to pale pink. The fruits are true berries with many small seeds and are a deep indigo to black colour when ripe.',
+		'Vaccinium angustifolium', 
+		'Vaccinium angustifolium, also known as the lowbush blueberry, is a perennial shrub native to eastern and central Canada and the northeastern United States. It can grow up to 2 feet tall and wide, with multiple stems, twiggy branches, and glossy foliage that changes color with the seasons. The plant has small, white, bell-shaped flowers that are followed by edible blue fruit.',
+		'Blueberry plants can live for up to 50 years or more if they are healthy and in ideal conditions. They reach full size around 8–10 years old and can remain productive for 20 years or more if they are properly pruned and the growing conditions are good.',
+		'48', 
+		'Blueberries prefer consistently moist soil, but not soggy.  Water deeply once a week, allowing the top inch of soil to dry slightly between waterings.  Increase watering frequency during hot or dry weather.',
+		'6 to 8 hours',
+		'Blueberries require full sun, or at least six hours of direct sunlight per day, to grow well. Plants will grow more slowly and produce less fruit if they are planted in too much shade.',
+		'20 to 26°C', 
+		'The ideal temperature for blueberry growth is between (20–26°C) during the day, with cooler nights. This range is ideal for photosynthesis and avoids cooking the plant. Nighttime temperatures should be cooler but not frosty, to maintain plant health.',
+		'40-60%', 
+		'Blueberry plants prefer a consistent humidity level between 40–60%. Too much humidity can create a swampy environment, while too little can make the plant feel like it is in the Sahara.',
+		false,
+	NOW());
+	
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Cherry', 
+		'Cherry, any of various trees belonging to the genus Prunus and their edible fruits. Commercial cherry production includes tart cherries (Prunus cerasus), which are frozen or canned and used in sauces and pastries, and sweet cherries (P. avium), which are usually consumed fresh and are the principal type preserved in true or imitation maraschino liqueur. A number of species, hybrids, and cultivars are grown as ornamentals for their prolific spring flowers, and the dark red wood of some cherry species is especially esteemed for the manufacture of fine furniture. Most cherry species are native to the Northern Hemisphere. Some 10 to 12 species are recognized in North America and a similar number in Europe. The greatest concentration of species, however, appears to be in eastern Asia. The native habitat of the species from which the cultivated cherries came is believed to be in western Asia and eastern Europe from the Caspian Sea to the Balkans. Cherries are grown in all areas of the world where winter temperatures are not too severe and where summer temperatures are moderate. They require winter cold in order to blossom in spring. The trees bloom quite early in the spring, just after peaches and earlier than apples.',
+		'Prunus cerasus', 
+		'Prunus cerasus, also known as the sour cherry or tart cherry tree, is a deciduous shrub or small tree that is native to Europe, North Africa, and West Asia. It is a member of the rose family and is closely related to the sweet cherry (Prunus avium).',
+		'The average lifespan of a cherry tree falls roughly between 30 and 40 years, depending on variety, yet the two trees planted by Taft and Chinda and a handful of other trees are still standing 111 years later.',
+		'62', 
+		'Cherry trees require regular watering during their first year, especially in early spring, summer, and sometimes early autumn. In the first week after planting, water cherry trees deeply every other day. In the second week, water them deeply two to three times, and after that, water them once a week for the rest of the first season. You should water cherry trees enough to soak the ground around their roots, but not so much that the roots become waterlogged',
+		'6 to 8 hours',
+		'Cherry trees thrive in full sun, which is at least 6 to 8 hours of sun each day. They also need well-drained, fertile soil with a pH of 6.0-7.0. Cherry trees thrive in a location that gets full sun and has a well-drained, fertile soil. “Full sun” is defined as at least 6 to 8 hours of sun each day. Sunlight is critical to fruit production and quality, and also helps keep fungal issues from getting a foothold.',
+		'5 to 35°C', 
+		'Cherry trees grow best in temperate climates with distinct seasons, cold winters, and warm, dry summers. Sweet cherry trees (Prunus avium) prefer cooler climates with temperatures between 41–95°F (5–35°C) and can tolerate frost in the winter. In the spring, temperatures between 59–68°F (15–20°C) are ideal for flowering.',
+		'40-60%', 
+		'The ideal relative humidity (RH) for Yoshino cherry trees is around 40–50%, and for flowering cherry trees have 40–60%. The right humidity level helps the cherry tree flowers be vibrant and contributes to the cherry tree overall vitality. If the humidity level is too low, the blossoms may not look as good, or the tree may develop fungal issues. If the humidity level is too high, the tree may develop fungal issues. A hygrometer can be used to monitor and adjust humidity levels indoors.',
+		false,
+	NOW());
 
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Strawberry',
-	'Strawberries are low-growing herbaceous plants with a fibrous root system and a crown from which arise basal leaves. The leaves are compound, typically with three leaflets, sawtooth-edged, and usually hairy. The flowers, generally white, rarely reddish, are borne in small clusters on slender stalks arising, like the surface-creeping stems, from the axils of the leaves. As a plant ages, the root system becomes woody, and the “mother” crown sends out runners (e.g., stolons) that touch ground and root, thus enlarging the plant vegetatively. Botanically, the strawberry fruit is considered an “accessory fruit” and is not a true berry. The flesh consists of the greatly enlarged flower receptacle and is embedded with the many true fruits, or achenes, which are popularly called seeds.',
-	'Genus Fragaria',
-	'Atleast 6 to 8 Hours',
-	'10 to 27 degree Celcius',
-	'48',
-	false,
-	false,
-	'Planting: Plant in spring or fall, depending on your growing zone. Space plants 18 inches apart, with 4 feet between rows. Strawberry plants prefer moist soil with a pH of 5.8 to 6.2. You can add compost or other organic matter to improve your soil.
-Watering: Water plants once a week, or when the top inch of soil is dry. Water from the bottom to avoid getting leaves wet. Overwatering can cause root rot and powdery mildew.
-Sunlight: Strawberries need plenty of sunlight, so choose a sunny location. Avoid overhead watering, which can keep leaves wet for too long.
-Fertilizing: Use a continuous-release fertilizer to promote fruit production.
-Mulching: Mulch can reduce water needs and weed invasion.
-Harvesting: Harvest ripe strawberries in the morning and refrigerate immediately.');
 
-INSERT INTO plant(plant_name, description, species, sunlight_requirements, temperature_requirements, watering_schedule, is_favorite, is_blooming, care_instructions) values (
-	'Tomato',
-	'Tomato plants are generally much branched, spreading 60–180 cm (24–72 inches) and somewhat trailing when fruiting, but a few forms are compact and upright. Leaves are more or less hairy, strongly odorous, pinnately compound, and up to 45 cm (18 inches) long. The five-petaled flowers are yellow, 2 cm (0.8 inch) across, pendant, and clustered. Fruits are berries that vary in diameter from 1.5 to 7.5 cm (0.6 to 3 inches) or more. They are usually red, scarlet, or yellow, though green and purple varieties do exist, and they vary in shape from almost spherical to oval and elongate to pear-shaped. Each fruit contains at least two cells of small seeds surrounded by jellylike pulp.',
-	'Solanum lycopersicum',
-	'Atleast 6 to 8 Hours',
-	'15 to 35 degree Celcius',
-	'24',
-	false,
-	false,
-	'Sunlight
-Tomatoes need warmth, not light, to ripen, so keep them out of direct sunlight in a spot with a temperature of 65–70°F.
-Soil
-Tomatoes grow best in warm, well-drained soil. You can use a lightweight potting mix that drains well, as regular soil may not drain fast enough.
-Watering
-Water the soil, not the foliage or stems, consistently and generously to keep tomatoes evenly moist and prevent blossom end rot. Don''t let pots stand in water, allow water to drain out through drainage holes.
-Support
-Most varieties of tomato plants grow along the ground, so you may need to provide support with a cage, trellis, or stake.
-Pruning
-Regular pruning helps tomato plants grow stronger and healthier, and produce more vegetables. Pruning also helps with pest control.
-Fertilizer
-Provide a side dressing of tomato fertilizer for the best-looking fruit.
-Seedlings
-Handle tomato seedlings with care, and never touch the main stem, as the juicy tissues bruise easily and can allow fungi to enter and cause the seedlings to rot.
-Containers
-If reusing plastic module trays, wash them well in warm, soapy water to remove old soil and accumulated salts. Small paper cups with holes punched in the bottoms can also be used.');
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Corn', 
+		'The corn plant is a tall annual grass with a stout, erect, solid stem. The large narrow leaves have wavy margins and are spaced alternately on opposite sides of the stem. Staminate (male) flowers are borne on the tassel terminating the main axis of the stem. The pistillate (female) inflorescences, which mature to become the edible ears, are spikes with a thickened axis, bearing paired spikelets in longitudinal rows; each row of paired spikelets normally produces two rows of grain. Varieties of yellow and white corn are the most popular as food, though there are varieties with red, blue, pink, and black kernels, often banded, spotted, or striped. Each ear is enclosed by modified leaves called shucks or husks.',
+		'Zea mays', 
+		'Zea mays is the scientific name for corn, a member of the grass family that is grown for its cereal grain. It is also known as maize, and Indian corn. Corn is the most produced cereal in the world, grown on every continent except Antarctica. It comes in about 50 species, with different colors, textures, and grain shapes and sizes. The most common cultivated maize types are white, yellow, and red.',
+		'The lifespan of a corn plant, also known as dracaena fragrans, is approximately two to three years. However, with proper care, the plant can live for decades.',
+		'64', 
+		'Corn plants, also known as Dracaena, prefer an environment that is moist but not soggy. A good rule of thumb is to water every 7–10 days, or when the top inch of soil feels dry. During fall and winter, you can reduce watering to when the top two inches of soil feel dry.',
+		'6 to 8 hours',
+		'A minimum of 6–8 hours of sunlight every day is the common growing corn plant light requirement. It is needed to grow corn away from any large trees that could cast shadows and plant tall varieties to the north or east of your field so that your shorter plants can get enough sun during the day.',
+		'18 to 27°C', 
+		'Corn plants do best in temperatures from 60°F to 75°F. Avoid exposing them to temperatures in the 50s. If you temporarily moved your corn plants outdoors for the summer, make sure to bring them indoors before temperatures reach this point.',
+		'40-50%', 
+		'Maintain humidity levels between 40 to 50 percent, which mimics the corn plant native environment. To raise your plant humidity, use a humidifier or place the pot on a tray of water and pebbles.',
+		false,
+	NOW());
 
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Grape', 
+		'The grape is usually a woody vine, climbing by means of tendrils (modified branches) and when untrained often reaching a length of 17 metres (56 feet) or more. In arid regions it may form an almost erect shrub. The edible leaves are alternate, palmately lobed, and always tooth-edged. Small greenish flowers, in clusters, precede the fruit, which varies in colour from almost black to green, red, and amber. Botanically, the fruit is a berry, more or less globular, within the juicy pulp of which lie the seeds. In many varieties the fruit develops a whitish powdery coating, or bloom.',
+		'Vitis vinifera', 
+		'Vitis vinifera is the botanical name for grapes, encompassing numerous cultivars with varying characteristics. It is native to Eurasia and has been cultivated for thousands of years for its fruits and for winemaking. Grapevines are perennial plants that produce fruit on new growth each year.',
+		'Grapevines have a long lifespan, typically ranging from 30 to 50 years under optimal growing conditions. With proper care and maintenance, some grapevines can live even longer. Pruning, trellising, and disease management are essential for prolonging the lifespan of grapevines and maintaining productivity.',
+		'62', 
+		'Grapes require regular watering, especially during dry periods, to support their growth and fruit development. Water plants deeply approximately every 168-240 hours, ensuring that the soil is evenly moist but not waterlogged. Avoid overhead watering to prevent fungal diseases. Mulching can help retain soil moisture and reduce weed competition.',
+		'6 to 8 hours',
+		'Grapes thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, such as a sunny garden bed or along a trellis or arbor. Adequate sunlight promotes vigorous growth and higher yields.',
+		'15 to 25°C', 
+		'Grapes prefer moderate temperatures between 15 to 25°C for optimal growth and fruit development. They can tolerate slightly cooler temperatures but may experience slower growth below 15°C. High temperatures above 30°C can inhibit flower and fruit set. Plant grapes in well-drained soil and provide protection from frost during cold periods.',
+		'50-70%', 
+		'Grapes prefer moderate humidity levels between 50% to 70% during their growing season. Adequate humidity helps maintain soil moisture and promotes healthy foliage growth. However, ensure proper air circulation to prevent fungal diseases, especially in humid conditions.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Orange', 
+		'Oranges (Citrus sinensis) are citrus fruits known for their bright orange color, sweet-tart flavor, and juicy pulp. They belong to the Rutaceae family and are widely cultivated in subtropical and tropical regions around the world. Oranges are commonly eaten fresh, juiced, or used in cooking, baking, and making preserves. They are rich in vitamin C, antioxidants, and dietary fiber, making them a nutritious addition to any diet.',
+		'Citrus sinensis', 
+		'Citrus sinensis is the botanical name for oranges, which belong to the Citrus genus within the Rutaceae family. It is believed to be a hybrid of pomelo (Citrus maxima) and mandarin (Citrus reticulata) species. Oranges come in various varieties with different flavors, sizes, and seediness.',
+		'Orange trees have a long lifespan, typically ranging from 50 to 100 years under optimal growing conditions. With proper care and maintenance, some orange trees can live even longer. Pruning, fertilization, and disease management are essential for prolonging the lifespan of orange trees and maintaining fruit production.',
+		'168', 
+		'Orange trees require regular watering to maintain soil moisture for optimal growth and fruit production. Water trees deeply approximately every 168-336 hours, ensuring that the soil is evenly moist but not waterlogged. Adjust watering frequency based on weather conditions, rainfall, and soil moisture levels. Mulching can help conserve soil moisture and reduce weed competition.',
+		'6 to 8 hours',
+		'Orange trees thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, such as a sunny garden bed or orchard. Adequate sunlight promotes vigorous growth and higher yields.',
+		'15 to 30°C', 
+		'Orange trees prefer moderate temperatures between 15 to 30°C for optimal growth and fruit development. They can tolerate slightly cooler temperatures but may experience slower growth below 10°C. Protect trees from frost during cold periods, as freezing temperatures can damage foliage and fruit.',
+		'50-70%', 
+		'Orange trees prefer moderate humidity levels between 50% to 70% during their growing season. Adequate humidity helps maintain soil moisture and promotes healthy foliage growth. However, ensure proper air circulation to prevent fungal diseases and improve pollination.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Peach', 
+		'Peaches (Prunus persica) are juicy, sweet fruits that belong to the Rosaceae family. They are native to China and have been cultivated for thousands of years for their delicious flavor and nutritional benefits. Peaches come in various colors, including yellow, white, and red, and are commonly eaten fresh, canned, or used in cooking, baking, and making preserves. They are rich in vitamins, minerals, and antioxidants, making them a healthy snack or ingredient.',
+		'Prunus persica', 
+		'Prunus persica is the botanical name for peaches, which belong to the Prunus genus within the Rosaceae family. It is a deciduous tree that produces delicious fruits in summer. Peaches are classified into clingstone and freestone varieties based on how easily the flesh separates from the pit.',
+		'Peach trees have a lifespan of 15 to 20 years under optimal growing conditions. With proper care and maintenance, some peach trees can live longer. Pruning, fertilization, and disease management are essential for prolonging the lifespan of peach trees and maintaining fruit production.',
+		'168', 
+		'Peach trees require regular watering to maintain soil moisture for optimal growth and fruit production. Water trees deeply approximately every 168-240 hours, ensuring that the soil is evenly moist but not waterlogged. Adjust watering frequency based on weather conditions, rainfall, and soil moisture levels. Mulching can help conserve soil moisture and reduce weed competition.',
+		'6 to 8 hours',
+		'Peach trees thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, such as a sunny garden bed or orchard. Adequate sunlight promotes vigorous growth and higher yields.',
+		'15 to 30°C', 
+		'Peach trees prefer moderate temperatures between 15 to 30°C for optimal growth and fruit development. They can tolerate slightly cooler temperatures but may experience slower growth below 10°C. Protect trees from frost during cold periods, as freezing temperatures can damage foliage and flowers.',
+		'50-70%', 
+		'Peach trees prefer moderate humidity levels between 50% to 70% during their growing season. Adequate humidity helps maintain soil moisture and promotes healthy foliage growth. However, ensure proper air circulation to prevent fungal diseases and improve pollination.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Pepper Bell', 
+		'Bell peppers (Capsicum annuum) are colorful, bell-shaped fruits that belong to the nightshade family (Solanaceae). They come in various colors, including green, red, yellow, and orange, and are prized for their sweet, crisp flesh. Bell peppers are versatile in cooking, commonly used in salads, stir-fries, and stuffed dishes. They are rich in vitamins A and C, as well as antioxidants, making them a nutritious addition to any diet.',
+		'Capsicum annuum', 
+		'Capsicum annuum is the botanical name for bell peppers, which belong to the Capsicum genus within the Solanaceae family. It is one of the most common and widely cultivated species of peppers, known for its mild flavor and crisp texture.',
+		'Bell pepper plants typically have a lifespan of 2 years under optimal growing conditions. However, they are often grown as annuals in temperate climates, replanted each year for the best yields. Proper care, including regular watering, fertilization, and pest management, can help prolong the lifespan of bell pepper plants.',
+		'48', 
+		'Bell pepper plants require consistent moisture to thrive. Water plants deeply approximately every 48-72 hours, ensuring that the soil is evenly moist but not waterlogged. During hot and dry periods, increase watering frequency as needed to prevent the soil from drying out completely. Mulching can help retain soil moisture and reduce the frequency of watering.',
+		'6 to 8 hours',
+		'Bell pepper plants thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, such as a sunny garden bed or container, to promote healthy foliage and abundant fruiting.',
+		'18 to 30°C', 
+		'Bell pepper plants prefer moderate temperatures between 18 to 30°C. They can tolerate slightly cooler temperatures but may experience slower growth below 18°C. High temperatures above 30°C can inhibit flowering and fruit set, leading to reduced yields. Provide protection during temperature extremes to ensure optimal growth and fruit production.',
+		'40-60%', 
+		'Bell pepper plants prefer moderate humidity levels between 40% to 60%. Adequate humidity promotes healthy growth and fruit development while reducing the risk of stress-related problems. However, ensure proper air circulation to prevent fungal diseases in humid conditions.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Potato', 
+		'Potatoes (Solanum tuberosum) are starchy tuberous vegetables that are widely cultivated for their edible underground tubers. They are one of the most important food crops in world and are consumed in various forms, including boiled, mashed, fried, and baked. Potatoes come in numerous varieties with different skin colors, flesh colors, and textures, offering a wide range of culinary possibilities. They are rich in carbohydrates, vitamins, minerals, and dietary fiber, making them a nutritious staple food.',
+		'Solanum tuberosum', 
+		'Solanum tuberosum is the botanical name for potatoes, belonging to the Solanaceae family. It is native to the Andes region of South America and has been cultivated for thousands of years. Potatoes are grown worldwide in diverse climates and soil conditions, with numerous cultivars adapted to different growing environments.',
+		'Potatoes are typically harvested within 3 to 5 months after planting, depending on the variety and growing conditions. While individual plants have a relatively short lifespan, potatoes can be stored for several months after harvest under proper storage conditions. Early, mid, and late-season varieties allow for staggered harvesting throughout the growing season.',
+		'96', 
+		'Potatoes require regular watering to maintain soil moisture for tuber development. Water plants deeply approximately every 96-168 hours, ensuring that the soil is evenly moist but not waterlogged. During dry periods, increase watering frequency as needed to prevent the soil from drying out completely. Mulching can help conserve soil moisture and reduce the frequency of watering.',
+		'6 to 8 hours',
+		'Potatoes thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and tuber production. Plant them in a location with ample sunlight exposure, ensuring that they receive sufficient light throughout the day. Adequate sunlight promotes vigorous foliage growth and higher yields.',
+		'15 to 20°C', 
+		'Potatoes prefer moderate temperatures between 15 to 20°C for optimal growth and tuber development. They can tolerate cooler temperatures but may experience slower growth below 10°C. High temperatures above 25°C can inhibit tuber formation and lead to heat stress. Plant potatoes in early spring when soil temperatures are suitable for planting.',
+		'70-80%', 
+		'Potatoes prefer moderate to high humidity levels between 70% to 80% during their growing period. Adequate humidity helps maintain soil moisture and promotes healthy foliage growth. However, ensure proper air circulation to prevent fungal diseases such as late blight, especially in humid conditions.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Raspberry', 
+		'Raspberries (Rubus idaeus) are delicious, sweet-tart berries that belong to the Rosaceae family. They are highly prized for their vibrant color, juicy texture, and distinct flavor. Raspberries come in various colors, including red, black, purple, and gold, with each variety offering unique taste characteristics. They are commonly eaten fresh, added to desserts, or used in jams, jellies, and baked goods. Raspberries are rich in vitamins, minerals, and antioxidants, making them a nutritious addition to any diet.',
+		'Rubus idaeus', 
+		'Rubus idaeus is the botanical name for raspberries, which belong to the Rubus genus within the Rosaceae family. It is native to Europe and Asia and has been cultivated for centuries for its delicious fruits. Raspberries are perennial plants with biennial canes that produce fruit in their second year of growth.',
+		'Raspberry plants have a lifespan of 10 to 12 years under optimal growing conditions. While individual canes live for two years, new canes emerge each year to replace older ones, ensuring continuous fruit production. Proper care, including pruning, fertilization, and disease management, can help prolong the lifespan of raspberry plants and maintain productivity.',
+		'48', 
+		'Raspberries require regular watering to maintain soil moisture for optimal growth and fruit development. Water plants deeply approximately every 48-72 hours, ensuring that the soil is evenly moist but not waterlogged. During dry periods, increase watering frequency as needed to prevent the soil from drying out completely. Mulching can help retain soil moisture and reduce weed competition.',
+		'6 to 8 hours',
+		'Raspberries thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, such as a sunny garden bed or along a south-facing fence or wall. Adequate sunlight promotes vigorous growth and higher yields.',
+		'18 to 25°C', 
+		'Raspberries prefer moderate temperatures between 18 to 25°C for optimal growth and fruit development. They can tolerate slightly cooler temperatures but may experience slower growth below 18°C. High temperatures above 25°C can inhibit flower and fruit set. Plant raspberries in early spring or late autumn when temperatures are suitable for planting.',
+		'50-70%', 
+		'Raspberries prefer moderate temperatures between 18 to 25°C for optimal growth and fruit development. They can tolerate slightly cooler temperatures but may experience slower growth below 18°C. High temperatures above 25°C can inhibit flower and fruit set. Plant raspberries in early spring or late autumn when temperatures are suitable for planting.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Soybean', 
+		'Soybean (Glycine max) is a versatile legume known for its high protein content and oil-rich seeds. It is widely cultivated for various purposes, including human consumption, animal feed, and industrial applications. Soybeans are used to produce products such as soy milk, tofu, soy sauce, and cooking oil. They are also a major source of protein in vegetarian diets and play a crucial role in global food security.',
+		'Glycine max', 
+		'Glycine max is the scientific name for soybean, belonging to the Fabaceae family. It is native to East Asia and has been domesticated for thousands of years. Soybeans exhibit considerable genetic diversity, with numerous varieties adapted to different growing conditions and uses.',
+		'Soybean plants are typically grown as annuals, completing their life cycle within one year. They are sown in spring or early summer, grow throughout the summer months, and are harvested in late summer or autumn. While individual plants have a relatively short lifespan, soybeans are a valuable crop due to their high yield potential and wide range of applications.',
+		'72', 
+		'Soybeans require regular watering to support their growth and development. Water plants deeply every 72-120 hours, allowing the soil to dry slightly between waterings. Adjust watering frequency based on weather conditions, rainfall, and soil moisture levels to maintain optimal soil moisture for plant growth.',
+		'6 to 8 hours',
+		'Soybeans thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and yield. Plant them in a location with ample sunlight exposure, ensuring that they receive sufficient light throughout the day. Adequate sunlight promotes photosynthesis, leading to healthy plant growth and higher yields.',
+		'20 to 30°C', 
+		'Soybeans prefer moderate temperatures between 20 to 30°C for optimal growth and development. They are sensitive to both cold and heat stress, with temperatures below 20°C slowing growth and temperatures above 30°C affecting flowering and pod formation. Plant soybeans after the danger of frost has passed and provide protection during temperature extremes.',
+		'50-80%', 
+		'Soybeans thrive in moderate to high humidity environments, with relative humidity levels between 50% to 80%. Adequate humidity promotes healthy plant growth and pod development. However, ensure proper air circulation to prevent fungal diseases, particularly during periods of high humidity.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Squash', 
+		'Squash refers to several species of trailing or bushy plants belonging to the Cucurbita genus. These plants produce fruits that vary widely in shape, size, color, and flavor. Squash is classified into two main types: summer squash, harvested when immature and eaten fresh, and winter squash, harvested when mature and stored for later consumption. Squash fruits are rich in vitamins, minerals, and dietary fiber, making them a nutritious addition to various dishes.',
+		'Cucurbita spp', 
+		'Cucurbita spp. encompasses several species of squash, including Cucurbita pepo, Cucurbita moschata, Cucurbita maxima, and Cucurbita mixta. Each species has its own unique characteristics and varieties.',
+		'Squash plants typically have a lifespan of 1 to 2 years, with productivity declining after the first year. While some varieties may exhibit longer lifespans under optimal conditions, most squash plants are considered annuals or short-lived perennials. Proper care, including regular watering, fertilization, and pest management, can help prolong the lifespan of squash plants.',
+		'48', 
+		'Squash plants require consistent moisture throughout their growth cycle. Water plants deeply every 48-72 hours, allowing the soil to dry slightly between waterings. Adjust watering frequency based on weather conditions and soil moisture levels, aiming to keep the soil evenly moist but not waterlogged.',
+		'6 to 8 hours',
+		'Squash plants thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, ensuring that they receive sufficient light to develop healthy foliage and fruits.',
+		'18 to 30°C', 
+		'Squash plants prefer moderate temperatures between 18 to 30°C. They can tolerate slightly cooler temperatures but may experience slower growth below 18°C. High temperatures above 30°C can inhibit pollination and fruit set, leading to reduced yields.',
+		'50-70%', 
+		'Squash plants prefer moderate to high humidity levels between 50% to 70%. Adequate humidity helps promote healthy growth and fruit development while reducing the risk of stress-related problems. However, ensure proper air circulation to prevent fungal diseases in humid conditions.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Strawberry', 
+		'Strawberries (Fragaria × ananassa) are popular fruits known for their sweet, juicy flavor and vibrant red color. They are commonly enjoyed fresh, added to desserts, or used in jams, jellies, and sauces. Strawberries are rich in vitamin C, fiber, and antioxidants, making them a nutritious addition to any diet.',
+		'Fragaria × ananassa', 
+		'Fragaria × ananassa is the hybrid species of cultivated strawberries, originating from the crossbreeding of Fragaria chiloensis and Fragaria virginiana. It belongs to the rose family (Rosaceae) and is widely cultivated for its delicious fruits.',
+		'Strawberry plants typically remain productive for 3 to 5 years before their productivity declines, requiring renovation or replanting for continued vigor and yield.',
+		'48', 
+		'Strawberries require consistent moisture to thrive. Water plants deeply every 48-72 hours, ensuring that the soil is kept evenly moist but not waterlogged. During hot and dry periods, increase watering frequency to prevent the soil from drying out completely. Avoid overhead watering to minimize the risk of fungal diseases. Adjust watering based on weather conditions and soil moisture levels.',
+		'6 to 8 hours',
+		'Strawberries thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Plant them in a location with ample sunlight exposure, such as a sunny garden bed or a sunny spot in a container.',
+		'15 to 25°C', 
+		'Strawberries prefer moderate temperatures between 15 to 25°C. They can tolerate slightly cooler temperatures but may experience slower growth below 15°C. High temperatures above 25°C can inhibit flowering and fruiting, leading to reduced yields.',
+		'40-60%', 
+		'Strawberries prefer moderate humidity levels between 40% to 60%. High humidity can increase the risk of fungal diseases such as botrytis (gray mold) and powdery mildew. Provide adequate air circulation around the plants to reduce humidity levels and minimize disease pressure.',
+		false,
+	NOW());
+
+INSERT INTO plant(
+	plant_name,
+	description,
+	species,
+	species_detail,
+	max_life,
+	watering_schedule,
+	watering_schedule_detail,
+	sunlight_requirements,
+	sunlight_requirements_detail,
+	temperature_requirements,
+	temperature_requirements_detail,
+	humidity,
+	humidity_detail,
+	is_favorite,
+	created_date)
+	VALUES (
+		'Tomato', 
+		'Tomatoes (Solanum lycopersicum) are a widely cultivated fruit known for their versatility in culinary applications. They are prized for their juicy flesh and sweet-tart flavor, making them a staple in salads, sauces, soups, and sandwiches. Tomatoes come in various sizes, shapes, and colors, including red, yellow, orange, and even purple. They are rich in vitamins A and C, as well as antioxidants like lycopene, which is associated with numerous health benefits.',
+		'Solanum lycopersicum', 
+		'Solanum lycopersicum is the botanical name for the tomato plant, belonging to the nightshade family (Solanaceae). It is native to western South America and has been cultivated for thousands of years.',
+		'Indeterminate varieties of tomato plants can live for several years in optimal conditions, while determinate varieties typically have a lifespan of one growing season.',
+		'24', 
+		'Tomatoes require consistent moisture throughout their growth cycle. Water young plants every 24-48 hours, aiming to keep the soil consistently moist but not waterlogged. During periods of fruit development, increase watering frequency as needed to ensure proper fruit formation. Adjust watering based on weather conditions such as rainfall and soil moisture levels.',
+		'6 to 8 hours',
+		'Tomatoes thrive in full sunlight and require at least 6 to 8 hours of direct sunlight daily for optimal growth and fruit production. Ensure they are planted in a location with ample sunlight exposure.',
+		'15 to 30°C', 
+		'Tomatoes prefer moderate temperatures between 15 to 30°C. They can tolerate slightly cooler temperatures but may experience slower growth below 15°C. High temperatures above 30°C can inhibit fruit set and lead to sunburn on fruits.',
+		'40-70%', 
+		'Tomatoes can tolerate a wide range of humidity levels, but they perform best in moderate humidity environments. Aim for relative humidity levels between 40% to 70%. High humidity coupled with poor air circulation can increase the risk of fungal diseases like blight and powdery mildew.',
+		false,
+	NOW());
             '''
         ))
         connection.commit()
