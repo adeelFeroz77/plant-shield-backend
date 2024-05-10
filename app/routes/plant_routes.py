@@ -5,6 +5,7 @@ from app.models import *
 from app.static import *
 from app.routes import image_routes
 from app.exceptions import *
+from sqlalchemy import func
 
 # Create a new plant
 @app.route('/plant', methods=['POST'])
@@ -191,5 +192,5 @@ def delete_plant(plant_id):
     
 
 def get_plant_by_name(plant_name):
-    plant = Plant.query.filter_by(plant_name = plant_name).first()
+    plant = Plant.query.filter(func.lower(Plant.plant_name) == plant_name.lower()).first()
     return plant

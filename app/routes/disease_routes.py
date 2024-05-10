@@ -5,6 +5,7 @@ from app.models import *
 from app.static import *
 from app.routes import *
 from app.exceptions import *
+from sqlalchemy import func
 
 # add new disease info
 @app.route('/disease', methods=['POST'])
@@ -76,5 +77,5 @@ def get_disease_by_id(disease_id):
         return jsonify({'error':str(e)}),500
 
 def get_disease_by_name(disease_name):
-    disease = DiseaseInfo.query.filter_by(name = disease_name).first()
+    disease = DiseaseInfo.query.filter(func.lower(DiseaseInfo.name) == disease_name.lower()).first()
     return disease
