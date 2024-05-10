@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 import os
 from app import app, db
@@ -135,7 +136,7 @@ def get_all_added_plants_of_user(username):
 
         for user_plant in user_plants:
             image = Image.query.filter_by(entity_id=user_plant.id, entity_type_id=image_entity_type.id).first()
-            image_json = image.to_dict() if image else None
+            image_json = base64.b64encode(image.get_data()).decode('utf-8') if image else None
             plant = Plant.query.get(user_plant.plant_id)
             disease = DiseaseInfo.query.get(user_plant.current_disease)
             plant_data = {
@@ -165,6 +166,61 @@ def get_all_added_plants_of_user(username):
             user_plant_list.append(plant_data)
 
         return jsonify({'User Plants': user_plant_list}), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+# Get user plany by username and id
+@app.route('/user-plants/<string:username>/<int:userplant_id>', methods=['GET'])
+def get_user_plant_by_username_and_id(username,userplant_id):
+    try:
+        if not username:
+            return jsonify({'error':'Username cannot be null'}), 400
+        
+        if not userplant_id:
+            return jsonify({'error':'UserPlant id cannot be null'}), 400
+        
+        user_id = auth_routes.get_user_id_by_username(username)
+
+        if not user_id:
+            return jsonify({'error':'User not found'}), 404
+
+        user_plant = UserPlant.query.filter_by(user_id = user_id, id=userplant_id).first()
+        image_entity_type = ImageEntityType.query.filter_by(entity_name=EntityTypes.UserPlant).first()
+
+        if user_plant is None:
+            return jsonify({'error': 'User Plant not found'}), 404
+
+        image = Image.query.filter_by(entity_id=user_plant.id, entity_type_id=image_entity_type.id).first()
+        image_json = base64.b64encode(image.get_data()).decode('utf-8') if image else None
+        plant = Plant.query.get(user_plant.plant_id)
+        disease = DiseaseInfo.query.get(user_plant.current_disease)
+        plant_data = {
+            'id': user_plant.id,
+            'plant_name': plant.plant_name,
+            'description': plant.description,
+            'species': plant.species,
+            'species_detail': plant.species_detail,
+            'max_life': plant.max_life,
+            'watering_schedule': plant.watering_schedule,
+            'watering_schedule_detail': plant.watering_schedule_detail,
+            'sunlight_requirements': plant.sunlight_requirements,
+            'sunlight_requirements_details': plant.sunlight_requirements_detail,
+            'temperature_requirements': plant.temperature_requirements,
+            'temperature_requirements_detail': plant.temperature_requirements_detail,
+            'humidity': plant.humidity,
+            'humidity_detail': plant.humidity_detail,
+            'notes': plant.notes,
+            'user_plant_image': image_json,
+            'current_disease': disease.name,
+            'disease_description': disease.description,
+            'disaese_possbile_steps': disease.possible_steps,
+            'last_watered': user_plant.last_watered,
+            'date_added': user_plant.date_added
+        }
+
+        return jsonify({'User Plant': plant_data}), 200
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
