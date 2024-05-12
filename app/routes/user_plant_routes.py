@@ -224,3 +224,80 @@ def get_user_plant_by_username_and_id(username,userplant_id):
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/user-plants/<string:username>/<int:userplant_id>', methods=['PUT'])
+def update_user_plant(username, userplant_id):
+    data = request.form
+    try:
+        if not username:
+            return jsonify({'error':'Username cannot be null'}), 400
+        
+        if not userplant_id:
+            return jsonify({'error':'UserPlant id cannot be null'}), 400
+        
+        user_id = auth_routes.get_user_id_by_username(username)
+
+        if not user_id:
+            return jsonify({'error':'User not found'}), 404
+        
+        user_plant = UserPlant.query.filter_by(user_id = user_id, id=userplant_id).first()
+
+        if not user_plant:
+            return jsonify({'error': 'User plant not found'}), 404
+        
+        last_watered = data.get('last_watered')
+        if not last_watered is None and last_watered.lower() == "now":
+            user_plant.last_watered = datetime.utcnow()
+        user_plant.notes = data.get('notes', user_plant.notes)
+        updated_disease = disease_routes.get_disease_by_name(data.get('current_disease',''))
+        if updated_disease:
+            user_plant.current_disease = updated_disease.id
+        db.session.commit()
+
+        if request.files['user_plant_image']:
+            new_image = request.files['user_plant_image']
+            old_image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=user_plant.id, entity_name=EntityTypes.UserPlant)
+            if old_image:
+                image_routes.update_image(old_image= old_image, new_image= new_image)
+            else:
+                image_routes.save_image_by_entity_and_entity_type(image_file=new_image, entity_id=user_plant.id, entity_name=EntityTypes.UserPlant)
+        
+        return jsonify({'success': 'User plant updated'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'Failed to updated user plant': str(e)}), 500
+    
+
+# Delete specific user-plant
+@app.route('/user-plants/<string:username>/<int:userplant_id>', methods=['DELETE'])
+def delete_user_plant(username, userplant_id):
+    data = request.form
+    try:
+        if not username:
+            return jsonify({'error':'Username cannot be null'}), 400
+        
+        if not userplant_id:
+            return jsonify({'error':'UserPlant id cannot be null'}), 400
+        
+        user_id = auth_routes.get_user_id_by_username(username)
+
+        if not user_id:
+            return jsonify({'error':'User not found'}), 404
+        
+        user_plant = UserPlant.query.filter_by(user_id = user_id, id=userplant_id).first()
+
+        if not user_plant:
+            return jsonify({'error': 'User plant not found'}), 404
+        
+        db.session.delete(user_plant)
+        db.session.commit()
+
+        image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=userplant_id, entity_name=EntityTypes.UserPlant)
+        if image:
+            db.session.delete(image)
+            db.session.commit()
+        
+        return jsonify({'success': 'User plant deleted'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'Failed to delete user plant': str(e)}), 500
