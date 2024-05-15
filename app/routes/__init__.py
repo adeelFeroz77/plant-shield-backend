@@ -7,6 +7,7 @@ from .user_plant_routes import *
 from .otp_routes import *
 from .disease_routes import *
 from .detection_routes import *
+from .notification_routes import *
 
 __all__ = []
 

@@ -5,7 +5,6 @@ from flask import request, jsonify
 from app.models import *
 import re
 from datetime import datetime
-
 from app.static.enums import EntityTypes
 
 @app.route('/validate-new-user',methods=['GET'])
@@ -29,6 +28,7 @@ def register_user():
     email = request.form.get('email')
     username = request.form.get('username')
     password = request.form.get('password')
+    device_token = request.form.get('device_token','')
 
     if not username or not password or not email:
         return jsonify({"error": "Email,Username and password are required"}), 400
@@ -44,7 +44,8 @@ def register_user():
         email=email,
         username=username,
         password=hash_password,
-        created_date=datetime.utcnow()
+        created_date=datetime.utcnow(),
+        device_token= device_token
     )
     db.session.add(user)
     db.session.commit()
@@ -163,7 +164,8 @@ def get_loggedIn_user(username):
         'last_name': profile.last_name if profile else None,
         'email': user.email,
         'username': user.username,
-        'profile_picture': base64.b64encode(image.get_data()).decode('utf-8') if image else None
+        'profile_picture': base64.b64encode(image.get_data()).decode('utf-8') if image else None,
+        'device_token': user.device_token
     }
     return jsonify(user_details), 200
 
@@ -200,3 +202,10 @@ def get_user_id_by_username(username):
     if not user:
         return None
     return user.id
+
+def get_all_users():
+    try:
+        users = User.query.all()
+        return users
+    except Exception as e:
+        return []

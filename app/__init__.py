@@ -5,6 +5,8 @@ from flask_mail import Mail
 from flask_cors import CORS
 from sqlalchemy import create_engine, text
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
+import atexit
 
 app = Flask(__name__)
 CORS(app)
@@ -24,6 +26,7 @@ bcrypt = Bcrypt(app)
 mail = Mail(app)
 
 from app.routes import *
+from app.routes import notification_routes
 from app.models import *
 from app.static import *
 from app.detection_model import *
@@ -758,3 +761,11 @@ Wash hands with soap and water before and during the handling of plants to reduc
             '''
         ))
         connection.commit()
+        
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=notification_routes.schedule_notification, trigger="cron", minute='*')
+scheduler.start()
+
+atexit.register(lambda: scheduler.shutdown(wait=False))

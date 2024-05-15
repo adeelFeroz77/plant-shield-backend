@@ -301,3 +301,11 @@ def delete_user_plant(username, userplant_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'Failed to delete user plant': str(e)}), 500
+    
+def get_user_plants_by_username(username):
+    try:
+        user_id = auth_routes.get_user_id_by_username(username)
+        user_plants = UserPlant.query.filter_by(user_id = user_id)
+        return user_plants
+    except Exception as e:
+        return []
