@@ -11,7 +11,7 @@ import atexit
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://shdwnhufnm:xvRNy8ZmuqNfRk$U@w-server.postgres.database.azure.com:5432/w-database?ssl=true'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:root@localhost/plantshield'
 
 app.config['MAIL_SERVER'] = "smtp.gmail.com"
 app.config['MAIL_PORT'] = 465
@@ -49,7 +49,7 @@ with app.app_context():
 
 # MIGRATION_SCRIPT
 
-engine = create_engine("postgresql://shdwnhufnm:xvRNy8ZmuqNfRk$U@w-server.postgres.database.azure.com:5432/w-database?ssl=true")
+engine = create_engine("postgresql://postgres:root@localhost/plantshield")
 directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app', 'static', 'pictures'))
 pictures = os.listdir(directory)
 
