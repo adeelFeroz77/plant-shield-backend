@@ -765,7 +765,7 @@ Wash hands with soap and water before and during the handling of plants to reduc
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=notification_routes.schedule_notification, trigger="cron", minute='*')
+scheduler.add_job(func=notification_routes.schedule_notification, trigger="cron", hour='*')
 scheduler.start()
 
 atexit.register(lambda: scheduler.shutdown(wait=False))

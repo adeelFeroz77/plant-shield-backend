@@ -254,7 +254,7 @@ def update_user_plant(username, userplant_id):
             user_plant.current_disease = updated_disease.id
         db.session.commit()
 
-        if request.files['user_plant_image']:
+        if 'user_plant_image' in request.files:
             new_image = request.files['user_plant_image']
             old_image = image_routes.get_image_by_entity_id_and_entity_type(entity_id=user_plant.id, entity_name=EntityTypes.UserPlant)
             if old_image:
