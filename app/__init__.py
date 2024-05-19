@@ -124,7 +124,7 @@ INSERT INTO plant(
 		'Vaccinium angustifolium', 
 		'Vaccinium angustifolium, also known as the lowbush blueberry, is a perennial shrub native to eastern and central Canada and the northeastern United States. It can grow up to 2 feet tall and wide, with multiple stems, twiggy branches, and glossy foliage that changes color with the seasons. The plant has small, white, bell-shaped flowers that are followed by edible blue fruit.',
 		'Blueberry plants can live for up to 50 years or more if they are healthy and in ideal conditions. They reach full size around 8–10 years old and can remain productive for 20 years or more if they are properly pruned and the growing conditions are good.',
-		'48', 
+		'0.0833', 
 		'Blueberries prefer consistently moist soil, but not soggy.  Water deeply once a week, allowing the top inch of soil to dry slightly between waterings.  Increase watering frequency during hot or dry weather.',
 		'6 to 8 hours',
 		'Blueberries require full sun, or at least six hours of direct sunlight per day, to grow well. Plants will grow more slowly and produce less fruit if they are planted in too much shade.',

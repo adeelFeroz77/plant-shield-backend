@@ -65,3 +65,22 @@ def update_detection(detection_id):
             return jsonify({'error': str(e)}), 500    
     else:
         return jsonify({'error': 'No Detection found'}), 404
+    
+@app.route('/detections/<int:user_plant_id>', methods=['GET'])
+def check_detection_age(user_plant_id):
+    try:
+        if not user_plant_id:
+            return jsonify({'error':'userPlantId cannot be null'}), 400
+        
+        detection = DetectionHistory.query.filter(
+            DetectionHistory.user_plant_id == user_plant_id,
+            DetectionHistory.is_accurate_prediction == None,
+            DetectionHistory.timestamp < datetime.utcnow() - timedelta(days=7)
+        ).first()
+        
+        feedback = detection is not None
+        
+        return jsonify({'feedback': feedback,'detetion_id': detection.id if detection else None}), 200
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
