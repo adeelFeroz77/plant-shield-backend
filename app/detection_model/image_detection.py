@@ -114,11 +114,11 @@ idx_to_classes = {0: 'Apple___Apple_scab',
                   38: 'Tomato___healthy'}
 
 
-disease_info = pd.read_csv('app\detection_model\disease_info.csv' , encoding='cp1252')
-supplement_info = pd.read_csv('app\detection_model\supplement_info.csv',encoding='cp1252')
+disease_info = pd.read_csv('app/detection_model/disease_info.csv' , encoding='cp1252')
+supplement_info = pd.read_csv('app/detection_model/supplement_info.csv',encoding='cp1252')
 
 model = CNN(39)    
-model.load_state_dict(torch.load("app\detection_model\plant_disease_model_1_latest.pt"))
+model.load_state_dict(torch.load("app/detection_model/plant_disease_model_1_latest.pt"))
 model.eval()
 
 def predict_image(image_path):

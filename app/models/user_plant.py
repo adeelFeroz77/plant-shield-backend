@@ -1,6 +1,7 @@
 import datetime
 from app import db
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 class UserPlant(db.Model):
     __tablename__ = 'user_plant'
@@ -12,6 +13,7 @@ class UserPlant(db.Model):
     notes = db.Column(db.Text)
     current_disease = db.Column(db.Integer, db.ForeignKey('disease_info.id'), nullable=False)
     date_added = db.Column(db.DateTime, server_default = func.now())
+    detection_histories = relationship('DetectionHistory', cascade='all, delete-orphan', backref='user_plant')
 
     def __init__(self, user_id, plant_id, last_watered, notes, current_disease):
         self.user_id=user_id
