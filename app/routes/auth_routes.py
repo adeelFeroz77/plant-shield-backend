@@ -135,18 +135,33 @@ def save_password_history(user_id,password_hash):
 
 @app.route('/login', methods=['POST'])
 def signin_user():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    
-    if not username or not password:
-        return jsonify({"error": "Username and password are required"}), 400
+    try:
+        username = request.form.get('username')
+        password = request.form.get('password')
+        device_token = request.form.get('device_token')
+        
+        if not username or not password:
+            return jsonify({"error": "Username and password are required"}), 400
+        
+        if not device_token:
+            return jsonify({'error': 'Device token is required'}), 400
 
-    user = User.query.filter_by(username=username).first()
-    
-    if not user or not bcrypt.check_password_hash(user.password, password):
-        return jsonify({'error': 'Invalid username or password'}), 401
-    # login_user(user=user, remember=True)
-    return jsonify({'message': 'SignIn successful'}), 200
+        user = User.query.filter_by(username=username).first()
+        
+        if not user or not bcrypt.check_password_hash(user.password, password):
+            return jsonify({'error': 'Invalid username or password'}), 401
+        
+        existing_device_token = user.device_token
+
+        if not existing_device_token is None and not existing_device_token.strip() == '':
+            return jsonify({'error': 'User already logged in from another device'}), 400
+        
+        user.device_token = device_token
+        db.session.commit()
+        # login_user(user=user, remember=True)
+        return jsonify({'message': 'SignIn successful'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/user/get-loggedin-user/<string:username>', methods=['GET'])
 def get_loggedIn_user(username):
@@ -194,6 +209,24 @@ def validate_current_password():
     if not user or not bcrypt.check_password_hash(user.password, curr_password):
         return jsonify({'error': 'Invalid current password'}), 401
     return jsonify({'message': 'Current password matched successfully'}), 200
+
+@app.route('/logout/<string:username>', methods=['PUT'])
+def logout_user(username):
+    try:
+        user = User.query.filter_by(username=username).first()
+        
+        if not user :
+            return jsonify({'error': 'User not found'}), 404
+        
+        if user.device_token is None or user.device_token.strip() == '':
+            return jsonify({'error': 'User already logged out'}), 400
+        
+        user.device_token = None
+        db.session.commit()
+        
+        return jsonify({'message':'Logged out successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 def get_user_id_by_username(username):
     if not username:
