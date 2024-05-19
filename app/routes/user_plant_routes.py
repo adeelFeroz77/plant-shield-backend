@@ -142,27 +142,12 @@ def get_all_added_plants_of_user(username):
             plant_data = {
                 'id': user_plant.id,
                 'plant_name': plant.plant_name,
-                'description': plant.description,
                 'species': plant.species,
-                'species_detail': plant.species_detail,
-                'max_life': plant.max_life,
                 'watering_schedule': plant.watering_schedule,
-                'watering_schedule_detail': plant.watering_schedule_detail,
-                'sunlight_requirements': plant.sunlight_requirements,
-                'sunlight_requirements_details': plant.sunlight_requirements_detail,
-                'temperature_requirements': plant.temperature_requirements,
-                'temperature_requirements_detail': plant.temperature_requirements_detail,
-                'humidity': plant.humidity,
-                'humidity_detail': plant.humidity_detail,
-                'notes': plant.notes,
                 'user_plant_image': image_json,
                 'current_disease': disease.name,
-                'disease_description': disease.description,
-                'disaese_possbile_steps': disease.possible_steps,
-                'last_watered': user_plant.last_watered,
-                'date_added': user_plant.date_added
+                'last_watered': user_plant.last_watered
             }
-
             user_plant_list.append(plant_data)
 
         return jsonify({'User Plants': user_plant_list}), 200
@@ -206,7 +191,7 @@ def get_user_plant_by_username_and_id(username,userplant_id):
             'watering_schedule': plant.watering_schedule,
             'watering_schedule_detail': plant.watering_schedule_detail,
             'sunlight_requirements': plant.sunlight_requirements,
-            'sunlight_requirements_details': plant.sunlight_requirements_detail,
+            'sunlight_requirements_detail': plant.sunlight_requirements_detail,
             'temperature_requirements': plant.temperature_requirements,
             'temperature_requirements_detail': plant.temperature_requirements_detail,
             'humidity': plant.humidity,
@@ -215,7 +200,7 @@ def get_user_plant_by_username_and_id(username,userplant_id):
             'user_plant_image': image_json,
             'current_disease': disease.name,
             'disease_description': disease.description,
-            'disaese_possbile_steps': disease.possible_steps,
+            'disease_possible_steps': disease.possible_steps,
             'last_watered': user_plant.last_watered,
             'date_added': user_plant.date_added
         }
